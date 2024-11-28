@@ -6,9 +6,7 @@
 ---
 
 ### **Invariante di ciclo**:
-L'invariante di ciclo è una proprietà che rimane vera all'inizio e alla fine di ogni iterazione del ciclo.  
-Per **Bubble Sort**:
-   Dopo \(i\) iterazioni del ciclo esterno, gli ultimi \(i\) elementi nell'array sono ordinati e non saranno più modificati.
+>Dopo \(i\) iterazioni del ciclo esterno, gli ultimi \(i\) elementi nell'array sono ordinati e non saranno più modificati.
 
 ---
 
