@@ -96,12 +96,12 @@ Supponiamo di ordinare `{10, 80, 30, 90, 40, 50, 70}`:
 
 ### **Analisi dell'algoritmo**:
 1. **Complessità temporale**:
-   - Caso migliore: \(O(n \log n)\), quando il pivot divide l'array in parti uguali.
+   - Caso migliore: \(O(n  log n)\), quando il pivot divide l'array in parti uguali.
    - Caso peggiore: \(O(n^2)\), quando il pivot è il minimo o massimo elemento (divisione sbilanciata).
-   - Caso medio: \(O(n \log n)\).
+   - Caso medio: \(O(n  log n)\).
 
 2. **Complessità spaziale**:
-   - \(O(\log n)\): per lo stack ricorsivo (nella versione in-place).
+   - \(O( log n)\): per lo stack ricorsivo (nella versione in-place).
    - Non richiede array ausiliari.
 
 ---
@@ -115,9 +115,9 @@ Supponiamo di ordinare `{10, 80, 30, 90, 40, 50, 70}`:
 ### **Confronto con altri algoritmi**:
 | **Caratteristica**      | **Quick Sort**          | **Merge Sort**         | **Insertion Sort**    |
 |--------------------------|-------------------------|-------------------------|-----------------------|
-| **Caso Migliore**         | \(O(n \log n)\)        | \(O(n \log n)\)        | \(O(n)\)             |
-| **Caso Peggiore**         | \(O(n^2)\)             | \(O(n \log n)\)        | \(O(n^2)\)           |
-| **Spazio Aggiuntivo**     | \(O(\log n)\)          | \(O(n)\)               | \(O(1)\)             |
+| **Caso Migliore**         | \(O(n  log n)\)        | \(O(n  log n)\)        | \(O(n)\)             |
+| **Caso Peggiore**         | \(O(n^2)\)             | \(O(n  log n)\)        | \(O(n^2)\)           |
+| **Spazio Aggiuntivo**     | \(O( log n)\)          | \(O(n)\)               | \(O(1)\)             |
 | **Stabilità**             | No                     | Sì                     | Sì                   |
 
 ---
