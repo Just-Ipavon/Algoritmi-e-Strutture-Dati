@@ -125,9 +125,9 @@ Alla fine, l'array è ordinato come `{2, 24, 45, 66, 75, 90, 170, 802}`.
 ### **Analisi dell'Algoritmo**:
 
 1. **Complessità Temporale**:
-   - **Caso Migliore**: \(O(n \cdot k)\), dove \(n\) è il numero di elementi e \(k\) è il numero di cifre (dipende dalla dimensione dei numeri).
-   - **Caso Peggiore**: \(O(n \cdot k)\), poiché il tempo di esecuzione dipende dal numero di cifre e dal numero di elementi.
-   - **Caso Medio**: \(O(n \cdot k)\).
+   - **Caso Migliore**: \(O(n • k)\), dove \(n\) è il numero di elementi e \(k\) è il numero di cifre (dipende dalla dimensione dei numeri).
+   - **Caso Peggiore**: \(O(n • k)\), poiché il tempo di esecuzione dipende dal numero di cifre e dal numero di elementi.
+   - **Caso Medio**: \(O(n • k)\).
 
 2. **Complessità Spaziale**:
    - \(O(n + k)\), dove \(n\) è il numero di elementi e \(k\) è il numero di possibili valori per ciascuna cifra (solitamente 10, per le cifre decimali).
@@ -145,7 +145,7 @@ Alla fine, l'array è ordinato come `{2, 24, 45, 66, 75, 90, 170, 802}`.
 
 | **Caratteristica**      | **Radix Sort**           | **Quick Sort**         | **Merge Sort**         |
 |--------------------------|--------------------------|------------------------|------------------------|
-| **Complessità Tempo (Medio)** | \(O(n \cdot k)\)         | \(O(n  log n)\)        | \(O(n  log n)\)        |
-| **Complessità Tempo (Peggiore)** | \(O(n \cdot k)\)         | \(O(n^2)\)             | \(O(n  log n)\)        |
+| **Complessità Tempo (Medio)** | \(O(n • k)\)         | \(O(n  log n)\)        | \(O(n  log n)\)        |
+| **Complessità Tempo (Peggiore)** | \(O(n • k)\)         | \(O(n^2)\)             | \(O(n  log n)\)        |
 | **Complessità Spaziale** | \(O(n + k)\)             | \(O( log n)\)          | \(O(n)\)               |
 | **Stabilità**            | Sì                       | No                     | Sì                     |
