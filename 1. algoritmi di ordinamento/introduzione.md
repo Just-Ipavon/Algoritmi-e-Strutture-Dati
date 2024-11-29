@@ -31,7 +31,18 @@ Il **Bubble Sort** è un algoritmo semplice che ordina confrontando elementi adi
   - Caso migliore: `O(n)` (quando l'array è già ordinato)
 - **Complessità Spaziale**: `O(1)` (in-place)
 
-### 2.2 **Quick Sort**
+### 2.2 **Insertion Sort**
+L'**Insertion Sort** è un algoritmo che costruisce gradualmente l'array ordinato spostando un elemento alla volta nella posizione corretta, partendo da un array parzialmente ordinato.
+
+- **Complessità Temporale**:  
+  - Caso peggiore: `O(n^2)` (quando l'array è ordinato in ordine inverso)  
+  - Caso medio: `O(n^2)`  
+  - Caso migliore: `O(n)` (quando l'array è già ordinato)  
+- **Complessità Spaziale**: `O(1)` (in-place)  
+
+
+
+### 2.3 **Quick Sort**
 Il **Quick Sort** è un algoritmo basato sul paradigma "divide et impera". Sceglie un elemento come pivot e partiziona l'array in due sotto-array, uno con gli elementi minori del pivot e l'altro con gli elementi maggiori, ordinando ricorsivamente i sotto-array.
 
 - **Complessità Temporale**:
@@ -40,7 +51,7 @@ Il **Quick Sort** è un algoritmo basato sul paradigma "divide et impera". Scegl
   - Caso migliore: `O(n log n)`
 - **Complessità Spaziale**: `O(log n)` per lo stack ricorsivo
 
-### 2.3 **Merge Sort**
+### 2.4 **Merge Sort**
 Il **Merge Sort** è un algoritmo "divide et impera" che divide l'array in due metà, le ordina ricorsivamente e poi le unisce in ordine crescente.
 
 - **Complessità Temporale**:
@@ -49,7 +60,7 @@ Il **Merge Sort** è un algoritmo "divide et impera" che divide l'array in due m
   - Caso migliore: `O(n log n)`
 - **Complessità Spaziale**: `O(n)` (richiede spazio aggiuntivo per l'unione degli array)
 
-### 2.4 **Heap Sort**
+### 2.5 **Heap Sort**
 Il **Heap Sort** è un algoritmo basato su una struttura dati chiamata **heap**, che è una rappresentazione parziale di un albero binario. L'algoritmo costruisce un heap massimo o minimo, e successivamente estrae ripetutamente l'elemento massimo o minimo per costruire l'array ordinato.
 
 - **Complessità Temporale**:
@@ -58,7 +69,7 @@ Il **Heap Sort** è un algoritmo basato su una struttura dati chiamata **heap**,
   - Caso migliore: `O(n log n)`
 - **Complessità Spaziale**: `O(1)` (in-place)
 
-### 2.5 **Bucket Sort**
+### 2.6 **Bucket Sort**
 Il **Bucket Sort** è un algoritmo di ordinamento che distribuisce gli elementi dell'array in un numero di "secchi" (bucket), ordina ciascun secchio e quindi unisce i secchi per ottenere l'array ordinato. È utile quando gli elementi sono distribuiti uniformemente in un intervallo limitato.
 
 - **Complessità Temporale**:
@@ -66,7 +77,7 @@ Il **Bucket Sort** è un algoritmo di ordinamento che distribuisce gli elementi 
   - Caso medio: `O(n + k)`, dove `k` è il numero di secchi
 - **Complessità Spaziale**: `O(n + k)`
 
-### 2.6 **Counting Sort**
+### 2.7 **Counting Sort**
 Il **Counting Sort** è un algoritmo di ordinamento che conta il numero di occorrenze di ciascun valore nell'array e utilizza queste informazioni per posizionare ogni valore nella posizione corretta. È particolarmente efficiente quando gli elementi sono numeri interi con un intervallo limitato.
 
 - **Complessità Temporale**:
@@ -74,7 +85,7 @@ Il **Counting Sort** è un algoritmo di ordinamento che conta il numero di occor
   - Caso medio: `O(n + k)`
 - **Complessità Spaziale**: `O(n + k)`
 
-### 2.7 **Radix Sort**
+### 2.8 **Radix Sort**
 Il **Radix Sort** è un algoritmo di ordinamento che ordina i numeri a partire dal loro meno significativo (digit) fino al più significativo. L'algoritmo utilizza un altro algoritmo di ordinamento stabile, come il Counting Sort, per ordinare i numeri basandosi sui singoli digit.
 
 - **Complessità Temporale**:
