@@ -79,6 +79,9 @@ Un altro esempio applicativo della DP è la **catena di montaggio** per trovare 
 
 - **Caso base**: \( f_1[1] = e_1 + a_1[1], f_2[1] = e_2 + a_2[1] \), dove \( e_1, e_2 \) sono i costi di ingresso iniziali.
 
+### 6. Memoization
+La **memoization** è una tecnica per ottimizzare le chiamate ricorsive memorizzando i risultati dei sottoproblemi già calcolati in una struttura dati, spesso una tabella o un dizionario. Questo approccio riduce il numero di calcoli duplicati e migliora l'efficienza.
+
 ---
 
 ## Vantaggi della DP
