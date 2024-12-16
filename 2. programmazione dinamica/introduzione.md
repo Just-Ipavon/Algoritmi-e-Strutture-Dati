@@ -73,19 +73,24 @@ Il problema del **Matrix Chain Order** consiste nel determinare il modo ottimale
   poiché moltiplicare una singola matrice non ha costo.
   
 ### 5. Catena di Montaggio
+
 Un altro esempio applicativo della DP è la **catena di montaggio** per trovare il percorso più veloce tra due linee di produzione. Ogni stazione di una linea ha un costo di elaborazione, e spostarsi da una linea all'altra comporta un costo di trasferimento.
 
-- **Input**: Due linee con \( n \) stazioni ciascuna, costi di lavorazione per ogni stazione e costi di trasferimento tra le linee.
-- **Relazione di ricorrenza**:  
-  \[
-  f_1[j] = \min(f_1[j-1] + a_1[j], f_2[j-1] + t_2[j] + a_1[j])
-  \]
-  \[
-  f_2[j] = \min(f_2[j-1] + a_2[j], f_1[j-1] + t_1[j] + a_2[j])
-  \]
-  dove \( f_1[j] \) e \( f_2[j] \) rappresentano i costi cumulativi per arrivare alla \( j \)-esima stazione rispettivamente sulla prima e sulla seconda linea.
+- **Input**: Due linee con `n` stazioni ciascuna, costi di lavorazione per ogni stazione e costi di trasferimento tra le linee.
 
-- **Caso base**: \( f_1[1] = e_1 + a_1[1], f_2[1] = e_2 + a_2[1] \), dove \( e_1, e_2 \) sono i costi di ingresso iniziali.
+- **Relazione di ricorrenza**:  
+  ```
+  f1[j] = min(f1[j-1] + a1[j], f2[j-1] + t2[j] + a1[j])
+  f2[j] = min(f2[j-1] + a2[j], f1[j-1] + t1[j] + a2[j])
+  ```
+  dove `f1[j]` e `f2[j]` rappresentano i costi cumulativi per arrivare alla `j`-esima stazione rispettivamente sulla prima e sulla seconda linea.
+
+- **Caso base**:  
+  ```
+  f1[1] = e1 + a1[1]
+  f2[1] = e2 + a2[1]
+  ```
+  dove `e1, e2` sono i costi di ingresso iniziali.
 
 ### 6. Memoization
 La **memoization** è una tecnica per ottimizzare le chiamate ricorsive memorizzando i risultati dei sottoproblemi già calcolati in una struttura dati, spesso una tabella o un dizionario. Questo approccio riduce il numero di calcoli duplicati e migliora l'efficienza.
