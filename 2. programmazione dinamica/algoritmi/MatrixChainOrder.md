@@ -93,12 +93,3 @@ L'output del programma mostrerà il costo minimo per moltiplicare queste matrici
 2. Combiniamo i risultati per calcolare il costo globale minimo.
 
 ---
-
-## Conclusioni
-
-Il problema della Matrix Chain Multiplication Order dimostra l'efficacia della programmazione dinamica per ottimizzare problemi complessi.
-
-### Note
-
-- Questo approccio calcola solo il **costo minimo**. Per determinare anche l'ordine ottimale delle parentesi, è necessario memorizzare i valori di `k` utilizzati per dividere i sotto-problemi in una tabella separata e ricostruire la soluzione ottimale.
-```
