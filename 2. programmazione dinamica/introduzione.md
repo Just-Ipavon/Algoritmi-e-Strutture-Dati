@@ -50,20 +50,28 @@ La distanza di editing è una misura che quantifica quanto due stringhe siano di
       `X = "kitten", Y = "sitting"`
       Distanza di Levenshtein = 3 (sostituire `k → s`, `e → i`, aggiungere `g`).
 
+Ecco la versione corretta del testo originale per il Markdown di GitHub:
+
 ### 4. Prodotto di Sequenza di Matrici (Matrix Chain Order)
+
 Il problema del **Matrix Chain Order** consiste nel determinare il modo ottimale di moltiplicare una sequenza di matrici per minimizzare il numero totale di operazioni scalari necessarie. La moltiplicazione non è commutativa, ma è associativa, quindi è possibile cambiare l'ordine delle parentesi.
 
-- **Input**: Una sequenza di matrici \( A_1, A_2, \dots, A_n \), dove la matrice \( A_i \) ha dimensione \( p_{i-1} \times p_i \).
+- **Input**: Una sequenza di matrici `A1, A2, ..., An`, dove la matrice `Ai` ha dimensione `p[i-1] x p[i]`.
 - **Output**: L'ordine ottimale di moltiplicazione che minimizza il costo computazionale.
 
 - **Relazione di ricorrenza**:  
-  Il costo minimo per moltiplicare le matrici da \( A_i \) a \( A_j \) è dato da:  
-  \[
-  m[i, j] = \min_{i \leq k < j} \left( m[i, k] + m[k+1, j] + p_{i-1} \cdot p_k \cdot p_j \right)
-  \]
+  Il costo minimo per moltiplicare le matrici da `Ai` a `Aj` è dato da:  
+  ```
+  m[i][j] = min(m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j])
+  ```
+  Dove `k` varia tra `i` e `j-1`.
 
-- **Caso base**: \( m[i, i] = 0 \), poiché moltiplicare una singola matrice non ha costo.
-
+- **Caso base**:  
+  ```
+  m[i][i] = 0
+  ```
+  poiché moltiplicare una singola matrice non ha costo.
+  
 ### 5. Catena di Montaggio
 Un altro esempio applicativo della DP è la **catena di montaggio** per trovare il percorso più veloce tra due linee di produzione. Ogni stazione di una linea ha un costo di elaborazione, e spostarsi da una linea all'altra comporta un costo di trasferimento.
 
