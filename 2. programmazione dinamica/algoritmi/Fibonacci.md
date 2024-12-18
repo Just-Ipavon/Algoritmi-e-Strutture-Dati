@@ -36,30 +36,23 @@ int main() {
 }
 ```
 
-### 2. Tabulation (Bottom-Up)
-Nell'approccio bottom-up, calcoliamo i valori partendo dai casi base e li salviamo in un array fino a raggiungere il valore desiderato.
+### 2. Divide et Impera
+Nell'approccio Divide et Impera, calcoliamo i valori partendo dai casi base e stampiamo solo il valore alla posizione richiesta.
 
 Esempio in C++:
 ```cpp
 #include <iostream>
-#include <vector>
 
-int fibonacciTab(int n) {
-    if (n <= 1) {
-        return n;
-    }
-    std::vector<int> dp(n + 1);
-    dp[0] = 0;
-    dp[1] = 1;
-    for (int i = 2; i <= n; ++i) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
+int fibonacciDei(int n) {
+    if (n <= 1) 
+        return 1;
+    int num = fibonacciDei(n-1) + fibonacciDei(n-2);
+    return num;
 }
 
 int main() {
     int n = 10; // Cambia questo valore per calcolare altri termini
-    std::cout << "Fibonacci(" << n << ") = " << fibonacciTab(n) << std::endl;
+    std::cout << "Fibonacci(" << n << ") = " << fibonacciDei(n) << std::endl;
     return 0;
 }
 ```
@@ -97,11 +90,11 @@ int main() {
 | Approccio             | Complessità Temporale | Complessità Spaziale |
 |-----------------------|-----------------------|-----------------------|
 | Memoization (Top-Down) | \( O(n) \)           | \( O(n) \)           |
-| Tabulation (Bottom-Up) | \( O(n) \)           | \( O(n) \)           |
+| Divede et Impera       | \( O(n) \)           | \( O(n) \)           |
 | Ottimizzato            | \( O(n) \)           | \( O(1) \)           |
 
 ## Conclusioni
 L'algoritmo di Fibonacci può essere ottimizzato utilizzando tecniche di programmazione dinamica. La scelta dell'approccio dipende dalle esigenze specifiche: 
 - **Memoization** è utile quando il problema può essere facilmente strutturato in modo ricorsivo.
-- **Tabulation** è preferibile per un controllo iterativo e predittivo della sequenza.
+- **Divide et Impera** è preferibile per un controllo su un singolo valore.
 - **Ottimizzazione dello spazio** è ideale per risparmiare memoria senza sacrificare la velocità.
