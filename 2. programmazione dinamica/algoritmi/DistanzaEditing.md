@@ -88,37 +88,35 @@ La distanza di Hamming tra due stringhe `X` e `Y` di uguale lunghezza è semplic
 
 ```cpp
 #include <iostream>
-#include <stdexcept>
+#include <string>
+
+using namespace std;
 
 // Funzione per calcolare la distanza di Hamming
-int hamming_distance(const std::string& X, const std::string& Y) {
-    if (X.length() != Y.length()) {
-        throw std::invalid_argument("Le stringhe devono avere la stessa lunghezza.");
-    }
-    
+int hamming_distance(const string& X, const string& Y) {
     int distance = 0;
-    
     // Calcola la distanza
     for (size_t i = 0; i < X.length(); ++i) {
         if (X[i] != Y[i]) {
             ++distance;
         }
     }
-    
     return distance;
 }
 
 int main() {
-    std::string X = "karolin";
-    std::string Y = "kathrin";
-    
-    try {
-        std::cout << "Distanza di Hamming tra \"" << X << "\" e \"" << Y << "\" è: "
-                  << hamming_distance(X, Y) << std::endl;
-    } catch (const std::invalid_argument& e) {
-        std::cout << e.what() << std::endl;
+    string X = "karolin";
+    string Y = "kathrin";
+
+    // Controlla se le stringhe hanno la stessa lunghezza
+    if (X.length() != Y.length()) {
+        cout << "Errore: le stringhe devono avere la stessa lunghezza." << endl;
+        return 1; // Esci con codice di errore
     }
-    
+
+    cout << "Distanza di Hamming tra \"" << X << "\" e \"" << Y << "\" è: "
+         << hamming_distance(X, Y) << endl;
+
     return 0;
 }
 ```
