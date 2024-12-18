@@ -1,3 +1,4 @@
+# Programmazione Dinamica
 La programmazione dinamica (DP) è una tecnica algoritmica utilizzata per risolvere problemi complessi suddividendoli in sottoproblemi più semplici e risolvendo ciascuno di essi una sola volta.
 È particolarmente efficace per problemi che presentano tre caratteristiche principali:
 

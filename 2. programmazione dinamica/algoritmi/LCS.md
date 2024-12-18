@@ -5,7 +5,6 @@ L'obiettivo dell'algoritmo LCS è trovare la lunghezza della sequenza comune pi�
 
 ## Approccio alla Soluzione
 
-### 1. Programmazione Dinamica (DP)
 La soluzione più efficiente per il problema della LCS utilizza la programmazione dinamica. Creiamo una matrice bidimensionale `dp` dove `dp[i][j]` rappresenta la lunghezza della LCS delle sottosequenze `X[0...i-1]` e `Y[0...j-1]`.
 
 #### Relazione di ricorrenza:
@@ -46,64 +45,12 @@ int main() {
 }
 ```
 
-### 2. Ricostruzione della LCS
-Una volta che la matrice `dp` è stata completata, possiamo ricostruire la sequenza comune più lunga. Partiamo dall'angolo in basso a destra della matrice e risaliamo, aggiungendo i caratteri comuni quando si verifica una corrispondenza.
-
-Esempio in C++ per ricostruire la LCS:
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-
-std::string reconstructLCS(const std::string& X, const std::string& Y, const std::vector<std::vector<int>>& dp) {
-    int i = X.size();
-    int j = Y.size();
-    std::string lcs;
-
-    while (i > 0 && j > 0) {
-        if (X[i - 1] == Y[j - 1]) {
-            lcs = X[i - 1] + lcs;
-            --i;
-            --j;
-        } else if (dp[i - 1][j] > dp[i][j - 1]) {
-            --i;
-        } else {
-            --j;
-        }
-    }
-
-    return lcs;
-}
-
-int main() {
-    std::string X = "ABCBDAB";
-    std::string Y = "BDCABB";
-    int m = X.size();
-    int n = Y.size();
-    std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
-
-    // Calcoliamo la matrice dp
-    for (int i = 1; i <= m; ++i) {
-        for (int j = 1; j <= n; ++j) {
-            if (X[i - 1] == Y[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = std::max(dp[i - 1][j], dp[i][j - 1]);
-            }
-        }
-    }
-
-    std::cout << "La LCS è: " << reconstructLCS(X, Y, dp) << std::endl;
-    return 0;
-}
-```
 
 ## Confronto degli Approcci
 
 | Approccio              | Complessità Temporale | Complessità Spaziale |
 |------------------------|-----------------------|----------------------|
-| Programmazione Dinamica | \( O(m \cdot n) \)     | \( O(m \cdot n) \)    |
+| Programmazione Dinamica | \( O(m * n) \)     | \( O(m * n) \)    |
 
 
 
