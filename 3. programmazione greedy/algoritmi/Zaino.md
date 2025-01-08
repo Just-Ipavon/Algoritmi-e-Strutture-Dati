@@ -23,7 +23,7 @@ Nella variante 0/1, ogni oggetto può essere preso interamente oppure non preso 
 ### Formula
 
 La soluzione ottimale può essere descritta ricorsivamente:  
-![forumla zaino](../assets/forumulaZaino.png)
+![formulaZaino](../assets/formulaZaino.png)
 
 Dove:
 
