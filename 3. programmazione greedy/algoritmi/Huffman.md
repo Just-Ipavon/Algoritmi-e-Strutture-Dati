@@ -121,7 +121,7 @@ int main() {
 
 ### Complessità
 - **Tempo**: \( O(n log n) \), dove `n` il numero di simboli.
-- **Spazio**: \( O() \), poiché la memoria utilizzata dipende dai simboli.
+- **Spazio**: \( O(n) \), poiché la memoria utilizzata dipende dai simboli.
 
 ---
 
