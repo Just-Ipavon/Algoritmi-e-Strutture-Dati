@@ -18,10 +18,12 @@ Nella variante 0/1, ogni oggetto può essere preso interamente oppure non preso 
 
 - **Output**: Un sottoinsieme di oggetti tale che la somma dei loro pesi sia \( \leq W \), massimizzando la somma dei loro valori.
 
+![zaino](../assets/knapsack_problem.png)
+
 ### Formula
 
 La soluzione ottimale può essere descritta ricorsivamente:  
-![alt text](../assets/immagine.png)
+![forumla zaino](../assets/forumulaZaino.png)
 
 Dove:
 
