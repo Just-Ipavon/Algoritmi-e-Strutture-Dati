@@ -24,11 +24,21 @@ La soluzione ottimale può essere descritta ricorsivamente:
 ![alt text](../assets/immagine.png)
 
 Dove:
-- \( f(i, w) \): valore massimo ottenibile considerando i primi \( i \) oggetti con capacità \( w \).
+
+- Caso base:
+    - Se non ci sono oggetti `(i=0)` o lo zaino non ha capacità `(w=0)`, il valore totale è `00`.
+
+- Oggetto troppo pesante:
+    - Se il peso dell'oggetto corrente `w[i]` è maggiore della capacità residua dello zaino ww, l'oggetto non può essere incluso. Il valore ottimale rimane quello ottenuto considerando solo i primi `i−1` oggetti: `f(i−1,w)`.
+
+- Oggetto includibile:
+    - Se l'oggetto corrente può essere incluso, si calcola il valore massimo tra:
+    - Non includere l'oggetto: `f(i−1,w)`,
+    - Includere l'oggetto: `v[i]+f(i−1,w−w[i])`, dove `v[i]` è il valore dell'oggetto corrente e `f(i−1,w−w[i])` è il valore ottimale per il restante spazio disponibile.
 
 ### Algoritmo (Programmazione Dinamica)
 
-Utilizza una matrice \( dp \) per memorizzare i risultati intermedi. La complessità è \( O(n \cdot W) \), dove \( n \) è il numero di oggetti e \( W \) è la capacità dello zaino.
+Utilizza una matrice \( dp \) per memorizzare i risultati intermedi. La complessità è \( O(n * W) \), dove \( n \) è il numero di oggetti e \( W \) è la capacità dello zaino.
 
 #### Esempio in C++:
 
@@ -36,15 +46,16 @@ Utilizza una matrice \( dp \) per memorizzare i risultati intermedi. La compless
 #include <iostream>
 #include <vector>
 #include <algorithm>
+using namespace std;
 
-int knapsack01(int W, const std::vector<int>& weights, const std::vector<int>& values) {
+int knapsack01(int W, const vector<int>& weights, const vector<int>& values) {
     int n = weights.size();
-    std::vector<std::vector<int>> dp(n + 1, std::vector<int>(W + 1, 0));
+     vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
 
     for (int i = 1; i <= n; ++i) {
         for (int w = 1; w <= W; ++w) {
             if (weights[i - 1] <= w) {
-                dp[i][w] = std::max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]]);
+                dp[i][w] =  max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]]);
             } else {
                 dp[i][w] = dp[i - 1][w];
             }
@@ -55,17 +66,17 @@ int knapsack01(int W, const std::vector<int>& weights, const std::vector<int>& v
 
 int main() {
     int W = 50; // Capacità dello zaino
-    std::vector<int> weights = {10, 20, 30};
-    std::vector<int> values = {60, 100, 120};
+     vector<int> weights = {10, 20, 30};
+     vector<int> values = {60, 100, 120};
 
-    std::cout << "Valore massimo: " << knapsack01(W, weights, values) << std::endl;
+     cout << "Valore massimo: " << knapsack01(W, weights, values) <<  endl;
     return 0;
 }
 ```
 
 ### Complessità
-- **Tempo**: \( O(n \cdot W) \)
-- **Spazio**: \( O(n \cdot W) \) (riducibile a \( O(W) \) con ottimizzazione).
+- **Tempo**: \( O(n * W) \)
+- **Spazio**: \( O(n * W) \) (riducibile a \( O(W) \) con ottimizzazione).
 
 ---
 
@@ -89,7 +100,7 @@ Ordina gli oggetti in base al rapporto valore/peso (\( v[i] / w[i] \)) in ordine
 
 ### Algoritmo
 
-L'algoritmo greedy ha complessità \( O(n \log n) \), dove \( n \) è il numero di oggetti (a causa del costo dell'ordinamento).
+L'algoritmo greedy ha complessità \( O(n log n) \), dove \( n \) è il numero di oggetti (a causa del costo dell'ordinamento).
 
 #### Esempio in C++:
 
@@ -97,6 +108,7 @@ L'algoritmo greedy ha complessità \( O(n \log n) \), dove \( n \) è il numero 
 #include <iostream>
 #include <vector>
 #include <algorithm>
+using namespace std;
 
 struct Item {
     int value, weight;
@@ -109,15 +121,15 @@ bool compare(const Item& a, const Item& b) {
     return a.ratio > b.ratio;
 }
 
-double fractionalKnapsack(int W, const std::vector<int>& values, const std::vector<int>& weights) {
+double fractionalKnapsack(int W, const  vector<int>& values, const  vector<int>& weights) {
     int n = values.size();
-    std::vector<Item> items;
+     vector<Item> items;
 
     for (int i = 0; i < n; ++i) {
         items.emplace_back(values[i], weights[i]);
     }
 
-    std::sort(items.begin(), items.end(), compare);
+     sort(items.begin(), items.end(), compare);
 
     double totalValue = 0.0;
 
@@ -136,16 +148,16 @@ double fractionalKnapsack(int W, const std::vector<int>& values, const std::vect
 
 int main() {
     int W = 50; // Capacità dello zaino
-    std::vector<int> values = {60, 100, 120};
-    std::vector<int> weights = {10, 20, 30};
+     vector<int> values = {60, 100, 120};
+     vector<int> weights = {10, 20, 30};
 
-    std::cout << "Valore massimo (frazionario): " << fractionalKnapsack(W, values, weights) << std::endl;
+     cout << "Valore massimo (frazionario): " << fractionalKnapsack(W, values, weights) <<  endl;
     return 0;
 }
 ```
 
 ### Complessità
-- **Tempo**: \( O(n \log n) \) (per l'ordinamento).
+- **Tempo**: \( O(n log n) \) (per l'ordinamento).
 - **Spazio**: \( O(n) \).
 
 ---
@@ -154,14 +166,7 @@ int main() {
 
 | Variante            | Complessità Temporale         | Complessità Spaziale | Metodo Utilizzato   |
 |---------------------|-------------------------------|-----------------------|---------------------|
-| Zaino 0/1          | \( O(n \cdot W) \)            | \( O(n \cdot W) \)   | Programmazione Dinamica |
-| Zaino Frazionario   | \( O(n \log n) \)             | \( O(n) \)           | Metodo Greedy        |
+| Zaino 0/1          | \( O(n * W) \)            | \( O(n * W) \)   | Programmazione Dinamica |
+| Zaino Frazionario   | \( O(n * n) \)             | \( O(n) \)           | Metodo Greedy        |
 
 ---
-
-## Conclusione
-
-Il problema dello zaino illustra due approcci fondamentali per problemi di ottimizzazione:
-- **Zaino 0/1** usa programmazione dinamica per garantire una soluzione esatta.
-- **Zaino frazionario** sfrutta l'approccio greedy per trovare una soluzione ottimale in minor tempo.  
-La scelta dell'approccio dipende dalla natura del problema e dai vincoli imposti. 
