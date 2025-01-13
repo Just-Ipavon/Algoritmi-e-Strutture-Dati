@@ -16,7 +16,7 @@ La notazione **Omega** fornisce il limite inferiore del tempo di esecuzione, oss
 ### 1.3 **Notazione Theta (Θ)**
 La notazione **Theta** descrive la complessità esatta, sia nel caso peggiore che in quello migliore.
 
----
+----
 
 ## **2. Algoritmi di Ordinamento**
 
