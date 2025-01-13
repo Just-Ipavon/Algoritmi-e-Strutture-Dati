@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -80,10 +81,60 @@ void mergeSort(int a[], int sinistra, int destra){
     }
 }
 
+void heapify(int a[], int n, int i){
+    int padre = i;
+    int figlioSx = 2*i+1;
+    int figlioDx = 2*i+2;
+    if(figlioSx < n && a[figlioSx] > a[padre]){
+        padre = figlioSx;
+    }
+    if(figlioDx < n && a[figlioDx] > a[padre]){
+        padre = figlioDx;
+    }
+    if(padre != i){
+        swap(a[i], a[padre]);
+        heapify(a, n, padre);
+    }
+}
+void heapSort(int a[], int n){
+    for(int i=n/2-1; i>=0; i--){
+        heapify(a, n, i);
+    }
+    for(int i=n-1; i>0; i--){
+        swap(a[0], a[i]);
+        heapify(a, i, 0);
+    }
+}
 
 
+void insertionSortB(vector<int>& bucket) {
+    int n = bucket.size();
+    for (int i = 1; i < n; i++) {
+        int key = bucket[i];
+        int j = i - 1;
+        while (j >= 0 && bucket[j] > key) {
+            bucket[j + 1] = bucket[j];
+            j--;
+        }
+        bucket[j + 1] = key;
+    }
+}
 
-
+void bucketSort(vector<int>& a){
+    int n = a.size();
+    int maxValue = *max_element(a.begin(), a.end());
+    vector<vector<int>> buckets(maxValue+1);
+    for(int i=0; i<n; i++){
+        buckets[a[i]].push_back(a[i]);
+    }
+    a.clear();
+    for(int i=0; i<=maxValue; i++){
+        if(buckets[i].empty()){
+            insertionSortB(buckets[i]);
+            a.insert(a.end(), buckets[i].begin(), buckets[i].end());
+        }
+    }
+}
 
 int main() {
 
