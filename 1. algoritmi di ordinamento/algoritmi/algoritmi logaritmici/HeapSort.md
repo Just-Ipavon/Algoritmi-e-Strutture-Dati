@@ -6,6 +6,7 @@
 
 Questo processo viene ripetuto fino a quando tutti gli elementi sono stati ordinati.
 
+![esempio heap](../../assets/Heap_sort_example.gif)
 ---
 
 ### **Invariante di ciclo**:

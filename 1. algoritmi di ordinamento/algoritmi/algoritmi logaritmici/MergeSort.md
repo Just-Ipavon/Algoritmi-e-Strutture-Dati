@@ -4,6 +4,8 @@
 
 ---
 
+![alt text](../../assets/merge-sort.gif)
+
 ### **Invariante di ciclo**:
 > Durante ogni fase di unione (merge), gli array parzialmente ordinati vengono combinati per produrre un array ordinato. L'invariante è che gli array temporanei contengono sempre sotto-array ordinati.
 
