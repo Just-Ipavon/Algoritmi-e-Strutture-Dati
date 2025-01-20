@@ -1,7 +1,3 @@
-Ecco il file in formato markdown per l'algoritmo di Bellman-Ford con una spiegazione completa e un'implementazione in C++.
-
----
-
 # **Algoritmo di Bellman-Ford**
 
 L'algoritmo di Bellman-Ford è utilizzato per trovare i percorsi più brevi da un nodo sorgente a tutti gli altri nodi di un grafo **pesato**, permettendo pesi negativi. A differenza di Dijkstra, Bellman-Ford rileva anche la presenza di cicli di peso negativo.
@@ -149,5 +145,3 @@ Il grafo rappresentato dagli input è:
 3. **Analisi delle Reti**: Modellazione di flussi e costi in reti.
 
 ---
-
-Questo file fornisce una descrizione completa dell'algoritmo di Bellman-Ford, con un'implementazione semplice e ben commentata in C++.
