@@ -24,6 +24,12 @@ Il corso teorico esplora i concetti fondamentali degli algoritmi e delle struttu
   - Merge Sort
   - QuickSort
 
+### **Tecniche di Programmazione**
+- **Divide et Impera**: Strategia di risoluzione dei problemi che consiste nel dividere un problema in sottoproblemi più piccoli, risolverli separatamente e combinare le soluzioni.
+- **Programmazione Dinamica**: Tecnica di progettazione di algoritmi che risolve un problema suddividendolo in sottoproblemi sovrapposti e memorizzando le soluzioni dei sottoproblemi per evitare di ricalcolarle.
+- **Algoritmi Greedy**: Strategia di progettazione di algoritmi che fa scelte localmente ottimali in ogni passaggio per ottenere una soluzione globalmente ottimale.
+
+
 ### **Strutture Dati Fondamentali**
 - **Array e Liste**: Strutture lineari per memorizzare sequenze di dati.
 - **Stack e Code**: Strutture per la gestione LIFO (Last In First Out) e FIFO (First In First Out).
@@ -39,12 +45,26 @@ Il corso teorico esplora i concetti fondamentali degli algoritmi e delle struttu
   - BFS (Breadth-First Search)
   - DFS (Depth-First Search)
   - Algoritmo di Dijkstra (per la ricerca del percorso più breve)
+  - Algoritmo di Bellman-Ford (per la ricerca del percorso più breve con pesi negativi) 
 
+### **MST**
+- **Algoritmi di Minimum Spanning Tree**:
+  - Algoritmo di Kruskal
+  - Algoritmo di Prim
+
+### **Hash Tables**
+-
+
+### **Automi e Linguaggi Formali**
+-
+
+### **Problemi P/NP e NP-Completi**
+-
 ---
 
 ## 2️⃣ Pratica (Prof. Ferone)
 
-La parte pratica del corso si concentra sull'implementazione e la testatura degli algoritmi e delle strutture dati utilizzando linguaggi di programmazione come **Java**, **Python** o **C**. Le attività pratiche includono:
+La parte pratica del corso si concentra sull'implementazione e la testatura degli algoritmi e delle strutture dati utilizzando linguaggi di programmazione come **Cpp**. Le attività pratiche includono:
 
 ### **Implementazione degli Algoritmi di Ordinamento**
 - Scrivere e testare vari algoritmi di ordinamento, come **Bubble Sort**, **Merge Sort**, e **QuickSort**, per comprendere le differenze in termini di complessità temporale e spaziale.
@@ -54,6 +74,12 @@ La parte pratica del corso si concentra sull'implementazione e la testatura degl
   
 ### **Lavorare con Alberi e Grafi**
 - Scrivere programmi per esplorare e manipolare strutture ad albero e grafi, implementando algoritmi come **DFS**, **BFS**, e l'algoritmo di **Dijkstra** per la ricerca del percorso più breve.
+- Implementare algoritmi di **Minimum Spanning Tree** come **Kruskal** e **Prim**.
+- Risolvere problemi pratici utilizzando algoritmi di **Programmazione Dinamica** e **Algoritmi Greedy**.
+- Implementare e testare **Tabelle Hash** per la ricerca efficiente.
+- Implementare algoritmi di **Ricerca** come la **Ricerca Lineare** e la **Ricerca Binaria**.
+- Implementare e testare **Heap** per la gestione di priorità.
+- Implementare gli alberi red-black attraverso l'uso di **Rotazioni** e gli algoritmi di **Inserimento** e **Cancellazione**.
 
 ---
 
