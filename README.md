@@ -1,6 +1,6 @@
 # Algoritmi e Strutture Dati - Università degli Studi di Napoli Parthenope
 
-Benvenuto nella repository ufficiale del corso di **Algoritmi e Strutture Dati** dell'Università degli Studi di Napoli Parthenope. Questo corso, strutturato in due sezioni, teorica e pratica, fornisce una comprensione approfondita degli algoritmi e delle strutture dati fondamentali, essenziali per lo sviluppo di software e la risoluzione di problemi complessi.
+Benvenuto nella repository del corso di **Algoritmi e Strutture Dati** dell'Università degli Studi di Napoli Parthenope. Questo corso, strutturato in due sezioni, teorica e pratica, fornisce una comprensione approfondita degli algoritmi e delle strutture dati fondamentali, essenziali per lo sviluppo di software e la risoluzione di problemi complessi.
 
 ---
 
