@@ -1,6 +1,48 @@
-//dato un grafo G(V,E) orientato e pesato con peso w: E->R con nodo sorgente s contenuto in V
-//scrivere in pseudocodice l'algoritmo che restituisce la profondità massima dei cammini minimi.
+# **Algoritmo per la ricerca della profondità dei cammini minimi**
+---
+Dato un grafo G(V,E) orientato e pesato con peso w: E->R con nodo sorgente s contenuto in Vscrivere in pseudocodice l'algoritmo che restituisce la profondità massima dei cammini minimi.
+---
+## **Pseudocodice della funzione in esame**
+```
+ALGORITMO CALCOLA_PROFONDITA_MAX_DA_BELLMANFORD_OUTPUT(V, s, d, pi)
+  // V: insieme dei nodi (o il loro numero per iterare)
+  // s: nodo sorgente
+  // d: array delle distanze minime da s (output di Bellman-Ford)
+  // pi: array dei predecessori sui cammini minimi (output di Bellman-Ford)
 
+  profondita_massima = 0
+
+  PER OGNI nodo v IN V FAI
+    // Considera solo i nodi raggiungibili da s
+    SE d[v] < +INF ALLORA
+      profondita_cammino_v = 0
+      nodo_corrente = v
+
+      // Ricostruisci il cammino all'indietro verso s
+      // Assumiamo che se d[v] < +INF, allora pi[nodo_corrente] != NIL
+      // finché nodo_corrente != s.
+      MENTRE nodo_corrente != s FAI
+        // Se nodo_corrente è raggiungibile e non è s, deve avere un predecessore.
+        // Se pi[nodo_corrente] fosse NIL qui, sarebbe un'incoerenza con d[v] < +INF.
+        // Per questa versione semplificata, assumiamo che pi sia corretto.
+        nodo_corrente = pi[nodo_corrente] 
+        profondita_cammino_v = profondita_cammino_v + 1
+      FINE MENTRE
+
+      // Aggiorna la profondità massima
+      SE profondita_cammino_v > profondita_massima ALLORA
+        profondita_massima = profondita_cammino_v
+      FINE SE
+    FINE SE
+  FINE PER
+
+  RESTITUISCI profondita_massima
+
+FINE ALGORITMO
+```
+---
+## **Codice in C++**
+```cpp
 #include <iostream>
 #include <vector>
 #include <limits>   // Per numeric_limits
@@ -119,3 +161,4 @@ int main() {
 
     return 0;
 }
+```
