@@ -1,5 +1,4 @@
-# Profondità Massima dei Cammini Minimi in un Grafo
-
+#Aereoporto e tempi di attesa
 ## Problema
 
 L'aereoporto di Capodichino ha fatto costruire una nuova pista di decollo e di atterraggio. Il direttore dell'aereoporto decide di utilizzare la pista per servire i nuovi `N aerei` che dovranno decollare dall'aereoporto.
