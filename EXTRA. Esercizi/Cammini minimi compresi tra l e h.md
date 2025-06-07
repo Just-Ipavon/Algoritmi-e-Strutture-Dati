@@ -130,9 +130,7 @@ Le distanze minime finali da S(0) sono:
 
 **Risultato Finale:** Il numero di nodi che soddisfano la condizione è **1** (solo il nodo C(3)).
 
-L'output atteso del programma C++ per questo esempio sarà:
-```
-Numero di nodi raggiungibili con cammino minimo di lunghezza m (4 <= m <= 7): 1
-```
+Il risultato finale sarà quindi: `Numero di nodi raggiungibili con cammino minimo di lunghezza m (4 <= m <= 7): 1`
+
 
 ---
