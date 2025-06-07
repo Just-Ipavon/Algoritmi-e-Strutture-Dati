@@ -28,7 +28,7 @@ L'algoritmo di Bellman-Ford inizializza `d[s]=0` e `d[v]=∞` per `v≠s`. Succe
 
 ## Pseudocodice: Calcolo Profondità Massima (dato l'output di Bellman-Ford)
 
-```pseudocode
+```c
 ALGORITMO CALCOLA_PROFONDITA_MAX_DA_BELLMANFORD_OUTPUT(V_nodi, s_sorgente, d_distanze, pi_predecessori)
   profondita_massima = 0
 

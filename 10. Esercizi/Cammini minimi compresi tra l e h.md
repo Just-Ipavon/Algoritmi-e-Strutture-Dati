@@ -17,7 +17,7 @@ Per risolvere questo problema, seguiremo due passaggi principali:
 
 ## Algoritmo in Pseudocodice
 
-```pseudocode
+```c
 ALGORITMO CONTA_NODI_LUNGHEZZA_CAMMINO_MINIMO(Grafo G, FunzionePeso w, Nodo s, Intero l, Intero h)
 
   // PARTE 1: Algoritmo di Dijkstra per calcolare le distanze minime
