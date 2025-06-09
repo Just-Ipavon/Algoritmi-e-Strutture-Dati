@@ -1,6 +1,7 @@
 # Algoritmo della LCS (Longest Common String)
 
 ![Simulatore LCS Online](https://lcs-demo.sourceforge.net/)
+
 La **Longest Common String** (LCS) è una sequenza di caratteri che appare in entrambi i sequenze date (senza necessariamente essere consecutiva, ma mantenendo l'ordine). 
 L'obiettivo dell'algoritmo LCS è trovare la lunghezza della sequenza comune più lunga tra due sequenze date.
 
