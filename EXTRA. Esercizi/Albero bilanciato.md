@@ -1,7 +1,7 @@
 # Controllo di un Albero Bilanciato
 
 ## Problema
-Un albero binaio `T` è bilanciato se la profondità di ogni fogli anon è maggiore di 1 rispetto alla profondità delle altre foglie. Scrivere un algoritmo in pseudocodice ricororsivo che restituisca `TRUE` se `T` è bilanciato o `FALSE` altrimenti.
+Un albero binaio `T` è bilanciato se la profondità di ogni fogli non è maggiore di 1 rispetto alla profondità delle altre foglie. Scrivere un algoritmo in pseudocodice ricororsivo che restituisca `TRUE` se `T` è bilanciato o `FALSE` altrimenti.
 
 ---
 
