@@ -39,7 +39,7 @@ BABA-INTERI-DA-TORTE-FRAZIONATE-PREORDINATI(B, C, E_max)
   baba_totali_massimi ← 0
   budget_corrente ← E_max
 
-  PER i ← 1 TO n // Itera sulle torte già ordinate per convenienza
+  FOR i ← 1 TO n // Itera sulle torte già ordinate per convenienza
     SE budget_corrente = 0 // Confronto: budget esaurito
       INTERROMPI-CICLO // Non si può comprare più nulla
     END IF
@@ -66,7 +66,7 @@ BABA-INTERI-DA-TORTE-FRAZIONATE-PREORDINATI(B, C, E_max)
 
     baba_totali_massimi ← baba_totali_massimi + baba_da_torta_i
     budget_corrente ← budget_corrente - spesa_per_torta_i 
-
+  END FOR
   RITORNA baba_totali_massimi 
 ```
 ---
