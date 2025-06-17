@@ -1,7 +1,6 @@
 #include<iostream>
 #include<fstream>
 #include<vector>
-//L'ALBERO E' IL PIù SEMPLICE, VI CONSIGLIO DI STUDIARE PER BENE HUFFMAN
 using namespace std;
 
 template<typename T, typename S>
