@@ -1,5 +1,14 @@
 # Introduzione ai DFA e agli Automi a Stati Finiti
 
+////////////////////////////////////////// 
+1-Definizione formale (Quintupla)
+2-Mosse DFA (funzione transizione e trans estesa)
+3-DFA vs NFA (Quintupla NFA)
+4-Linguaggio DFA&NFA
+5-Macchina Turing&Tesi Church
+//////////////////////////////////////////
+
+
 ## Cos'è un Automa a Stati Finiti?
 
 Un automa a stati finiti è un modello matematico usato per rappresentare e analizzare sistemi che possiedono un numero finito di stati. Viene impiegato in numerosi campi dell'informatica, come la teoria dei linguaggi formali, la compilazione e il riconoscimento di pattern.
