@@ -1,9 +1,10 @@
 {
+    "version": "2.0.0",
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: gcc compila il file attivo",
-            "command": "/usr/bin/gcc",
+            "label": "C++: Compila solo il file attivo",
+            "command": "g++",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
@@ -21,8 +22,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Attività generata dal debugger."
+            "detail": "Compila solo il file aperto con g++"
         }
-    ],
-    "version": "2.0.0"
+    ]
 }
