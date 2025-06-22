@@ -1,74 +1,101 @@
 #include <iostream>
-#include <unordered_map>
+#include <fstream>
 #include <vector>
-#include <utility>
-#include <limits>
-#include <stdexcept>
+#include <unordered_map>
 
 using namespace std;
 
-template <typename T, typename W = int>
+enum class Color { White, Grey, Black };
+
+const int INF = 1e9;
+
+template <typename T>
+class Node {
+public:
+    T value;
+    Color color = Color::White;
+    int distance = INF;
+    Node<T>* parent = nullptr;
+
+    Node(T val) : value(val) {}
+};
+
+template <typename T>
+class Edge {
+public:
+    int weight;
+    Node<T>* from;
+    Node<T>* to;
+
+    Edge(int w, Node<T>* f, Node<T>* t)
+        : weight(w), from(f), to(t) {}
+};
+
+template <typename T>
 class Graph {
 private:
-    bool directed;
-    unordered_map<T, vector<pair<T, W>>> adj;
+    unordered_map<T, Node<T>*> nodes;
+    unordered_map<T, vector<pair<T, int>>> adj;
 
 public:
-    // Costruttore
-    Graph(bool is_directed = true) : directed(is_directed) {}
+    vector<Edge<T>*> edges;
 
-    // Aggiunge un arco (e implicitamente i nodi)
-    void add_edge(const T& from, const T& to, const W& weight = 1) {
+    Node<T>* add_node(T val) {
+        if (!nodes.count(val)) {
+            nodes[val] = new Node<T>(val);
+        }
+        return nodes[val];
+    }
+
+    void add_edge(T from, T to, int weight, bool undirected = false) {
+        Node<T>* src = add_node(from);
+        Node<T>* dest = add_node(to);
+        edges.push_back(new Edge<T>(weight, src, dest));
         adj[from].emplace_back(to, weight);
-        if (!directed) {
+        if (undirected) {
             adj[to].emplace_back(from, weight);
         }
     }
 
-    // Stampa la rappresentazione del grafo
-    void print() const {
+    void print_adjacency_list(ostream& out) const {
         for (const auto& [node, neighbors] : adj) {
-            cout << node << " -> ";
-            for (const auto& [dest, weight] : neighbors) {
-                cout << "(" << dest << ", " << weight << ") ";
+            out << node << " -> ";
+            for (const auto& [dest, w] : neighbors) {
+                out << "(" << dest << ", peso: " << w << ") ";
             }
-            cout << "\n";
+            out << "\n";
         }
     }
 
-    // Restituisce i vicini di un nodo
-    const vector<pair<T, W>>& neighbors(const T& node) const {
-        static const vector<pair<T, W>> empty;
-        auto it = adj.find(node);
-        if (it != adj.end()) return it->second;
-        return empty;
-    }
-
-    // Verifica se un nodo esiste
-    bool has_node(const T& node) const {
-        return adj.find(node) != adj.end();
-    }
-
-    // Verifica se un arco esiste
-    bool has_edge(const T& from, const T& to) const {
-        auto it = adj.find(from);
-        if (it == adj.end()) return false;
-        for (const auto& [dest, _] : it->second) {
-            if (dest == to) return true;
-        }
-        return false;
+    ~Graph() {
+        for (auto& [_, n] : nodes) delete n;
+        for (auto& e : edges) delete e;
     }
 };
 
-// Esempio di utilizzo
 int main() {
-    Graph<string, int> g(false);  // non orientato
+    ifstream in("input.txt");
+    ofstream out("output.txt");
 
-    g.add_edge("A", "B", 5);
-    g.add_edge("A", "C", 3);
-    g.add_edge("B", "D", 2);
+    if (!in || !out) {
+        cerr << "Errore apertura file.\n";
+        return 1;
+    }
 
-    g.print();
+    int n, m;
+    in >> n >> m;
 
+    Graph<int> g;
+
+    for (int i = 0; i < m; ++i) {
+        int u, v, w;
+        in >> u >> v >> w;
+        g.add_edge(u, v, w); // orientato
+    }
+
+    out << "Lista di adiacenza:\n";
+    g.print_adjacency_list(out);
+
+    cout << "Grafo caricato e salvato in output.txt\n";
     return 0;
 }
