@@ -66,16 +66,16 @@ public:
             adj[to].emplace_back(from, weight);
         }
     }
-
     void print_adjacency_list(ofstream& out) {
-        for (typename unordered_map<T, vector<pair<T, int>>>::iterator it = adj.begin(); it != adj.end(); ++it) {
-            out << it->first << ": ";
-            for (size_t i = 0; i < it->second.size(); ++i) {
-                out << "(" << it->second[i].first << ", peso " << it->second[i].second << ") ";
+        for (const auto& [node, neighbors] : adj) {
+            out << node << ": ";
+            for (const auto& [neighbor, weight] : neighbors) {
+                out << "(" << neighbor << ", peso " << weight << ") ";
             }
             out << "\n";
         }
     }
+
 
    void DFS() {
     for (auto& [_, node] : nodes) {
