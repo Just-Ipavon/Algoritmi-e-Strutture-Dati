@@ -1,8 +1,0 @@
-Order is [NODE] -> [DISTANCE] -> [PARENT]
-F	2	C
-G	2	C
-E	2	C
-A	0	NULL
-D	2	B
-C	1	A
-B	1	A
