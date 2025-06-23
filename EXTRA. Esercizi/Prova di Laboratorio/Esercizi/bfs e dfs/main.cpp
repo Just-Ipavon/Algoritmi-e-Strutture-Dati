@@ -8,6 +8,7 @@
 using namespace std;
 
 const int INF = numeric_limits<int>::max();
+
 enum color { white, gray, black };
 
 template <typename T>
@@ -76,35 +77,38 @@ public:
         }
     }
 
-    void DFS() {
-        for (typename unordered_map<T, Node<T>*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
-            it->second->col = white;
-            it->second->parent = nullptr;
+   void DFS() {
+    for (auto& [_, node] : nodes) {
+        node->col = white;
+        node->parent = nullptr;
+    }
+
+    time = 0;
+
+    for (auto& [_, node] : nodes) {
+        if (node->col == white) {
+            DFS_VISIT(node);
         }
-        time = 0;
-        for (typename unordered_map<T, Node<T>*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
-            if (it->second->col == white) {
-                DFS_VISIT(it->second);
-            }
+    }
+}
+
+
+   void DFS_VISIT(Node<T>* u) {
+    u->col = gray;
+    u->discovery = ++time;
+
+    for (auto& [v_val, _] : adj[u->value]) {
+        Node<T>* v = nodes[v_val];
+        if (v->col == white) {
+            v->parent = u;
+            DFS_VISIT(v);
         }
     }
 
-    void DFS_VISIT(Node<T>* u) {
-        u->col = gray;
-        u->discovery = ++time;
+    u->col = black;
+    u->finish = ++time;
+}
 
-        for (size_t i = 0; i < adj[u->value].size(); ++i) {
-            T v_val = adj[u->value][i].first;
-            Node<T>* v = nodes[v_val];
-            if (v->col == white) {
-                v->parent = u;
-                DFS_VISIT(v);
-            }
-        }
-
-        u->col = black;
-        u->finish = ++time;
-    }
 
     void BFS(T start) {
     for (auto& [_, node] : nodes) {
