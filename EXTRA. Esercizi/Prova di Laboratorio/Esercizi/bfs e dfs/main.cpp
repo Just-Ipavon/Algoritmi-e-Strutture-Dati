@@ -84,6 +84,7 @@ public:
     }
 
     time = 0;
+    
 
     for (auto& [_, node] : nodes) {
         if (node->col == white) {
