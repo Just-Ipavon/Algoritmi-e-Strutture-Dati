@@ -6,6 +6,9 @@ La **distanza di editing** misura la differenza tra due stringhe. Esistono diver
 - **Distanza di Levenshtein**: misura il numero minimo di operazioni necessarie per trasformare una stringa in un'altra. Le operazioni consentite sono inserimento, eliminazione e sostituzione.
 - **Distanza di Hamming**: misura il numero di posizioni in cui le due stringhe di uguale lunghezza differiscono. È limitata a stringhe di uguale lunghezza e permette solo la sostituzione di caratteri.
 
+
+
+
 ## 1. Distanza di Levenshtein
 
 La **distanza di Levenshtein** è definita come il numero minimo di operazioni necessarie per trasformare una stringa nell'altra. Le operazioni consentite sono:
@@ -17,6 +20,42 @@ La **distanza di Levenshtein** è definita come il numero minimo di operazioni n
 ### Algoritmo della Distanza di Levenshtein
 
 L'algoritmo può essere implementato usando **programmazione dinamica**. La matrice `dp[i][j]` rappresenta la distanza tra le prime `i` lettere della stringa `X` e le prime `j` lettere della stringa `Y`.
+
+### Pseudocodice per la Distanza di Levenshtein
+
+```cpp
+// X e Y sono le due sequenze (stringhe) date.
+// X = <x₁, x₂, ..., xₘ>, Y = <y₁, y₂, ..., yₙ>
+// d[i,j] memorizza la distanza di Levenshtein tra X[1..i] e Y[1..j].
+
+LEVENSHTEIN-DISTANCE(X, Y)
+  m ← |X| // Lunghezza di X
+  n ← |Y| // Lunghezza di Y
+  Sia d[0..m, 0..n] una nuova tabella
+
+  // Inizializzazione della prima colonna (trasformare X[1..i] in stringa vuota)
+  PER i ← 0 TO m
+    d[i,0] ← i // Costo: i eliminazioni
+
+  // Inizializzazione della prima riga (trasformare stringa vuota in Y[1..j])
+  PER j ← 0 TO n
+    d[0,j] ← j // Costo: j inserimenti
+
+  // Popola la tabella d
+  PER i ← 1 TO m
+    PER j ← 1 TO n
+      costo_sostituzione ← 0
+      SE X[i] ≠ Y[j] // Confronto tra i caratteri (usando indici 1-based)
+        costo_sostituzione ← 1
+      // ALTRIMENTI (se X[i] = Y[j]), costo_sostituzione rimane 0
+
+      // Calcola il costo minimo scegliendo tra le tre operazioni
+      d[i,j] ← MIN( d[i-1,j] + 1,                 // Eliminazione di X[i]
+                    d[i,j-1] + 1,                 // Inserimento di Y[j]
+                    d[i-1,j-1] + costo_sostituzione // Sostituzione di X[i] con Y[j] (o match)
+                  )
+  RITORNA d[m,n] // La distanza finale
+  ```
 
 ### Codice C++ per la Distanza di Levenshtein
 
@@ -83,6 +122,36 @@ La **distanza di Hamming** è una misura della differenza tra due stringhe di ug
 ### Algoritmo della Distanza di Hamming
 
 La distanza di Hamming tra due stringhe `X` e `Y` di uguale lunghezza è semplicemente il numero di posizioni in cui `X[i] != Y[i]`.
+
+### Pseudocodice per la Distanza di Hamming
+
+```cpp
+// X e Y sono le due sequenze (stringhe) date, di uguale lunghezza.
+// X = <x₁, x₂, ..., xₙ>, Y = <y₁, y₂, ..., yₙ>
+// Si assume |X| = |Y| = n.
+
+HAMMING-DISTANCE(X, Y)
+  // 1. Verifica preliminare (opzionale nello pseudocodice dell'algoritmo puro,
+  //    ma importante nell'uso pratico come mostrato nel tuo main C++)
+  SE |X| ≠ |Y| ALLORA
+    ERRORE "Le stringhe devono avere la stessa lunghezza"
+    // (Oppure ritorna un valore speciale come -1 o solleva un'eccezione)
+  FINE SE
+
+  // 2. Inizializzazione
+  n ← |X| // o |Y|, dato che sono uguali
+  distanza ← 0
+
+  // 3. Calcolo della distanza
+  PER i ← 1 TO n // Itera sulle posizioni dei caratteri (usando indici 1-based)
+    SE X[i] ≠ Y[i] ALLORA // Confronto tra i caratteri alla posizione i
+      distanza ← distanza + 1
+    FINE SE
+  FINE PER
+
+  // 4. Risultato
+  RITORNA distanza
+  ```
 
 ### Codice C++ per la Distanza di Hamming
 
