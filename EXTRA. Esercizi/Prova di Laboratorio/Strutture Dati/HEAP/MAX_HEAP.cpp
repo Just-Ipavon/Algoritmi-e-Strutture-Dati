@@ -1,116 +1,86 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-//IN GENERE METTE QUESTA PROVA MA COL MIN
 using namespace std;
 
 template<typename T>
-class Node{
-    public: 
+class Node {
+public:
     T k;
-    Node(T k) : k(k){}
+    Node(T k) : k(k) {}
 };
 
 template<typename T>
-class Heap{
-    private:
+class MaxHeap {
+private:
     vector<Node<T>*> data;
     int heapsize;
 
- 
-
-    void max_heap(int i){
-        int l = (i * 2)+ 1;
-        int r = (i * 2) + 2;
-        int max = i;
-        if(l < heapsize && data[l]->k > data[max]->k){
-            max = l;
-        }
-        if(r < heapsize && data[r]->k > data[max]->k){
-            max = r;
-        }
-        if(max != i){
-            cout<<"SCAMBIO "<<data[i]<<", "<<data[max]<<endl;
-            swap(data[i], data[max]);
-            max_heap(max);
+    void max_heapify(int i) {
+        int l = 2 * i + 1;
+        int r = 2 * i + 2;
+        int largest = i;
+        if (l < heapsize && data[l]->k > data[largest]->k) largest = l;
+        if (r < heapsize && data[r]->k > data[largest]->k) largest = r;
+        if (largest != i) {
+            swap(data[i], data[largest]);
+            max_heapify(largest);
         }
     }
 
-    void build(){
-        for(int i = heapsize/2 - 1; i >= 0; i --){
-            max_heap(i);
-        }
+    void build() {
+        for (int i = heapsize / 2 - 1; i >= 0; --i)
+            max_heapify(i);
     }
 
-    public:
-    Heap(vector<Node<T>*> &value) : data(value), heapsize(value.size()) {
+public:
+    MaxHeap(vector<Node<T>*>& vec) : data(vec), heapsize(vec.size()) {
         build();
     }
 
-    T getMax() const {
-        return data[0]->k;
+    void increase(T val, int i) {
+        if (i < 0 || i >= heapsize || val < data[i]->k) {
+            cerr << "Invalid increase request." << endl;
+            return;
+        }
+        data[i]->k = val;
+        while (i > 0 && data[(i - 1) / 2]->k < data[i]->k) {
+            swap(data[i], data[(i - 1) / 2]);
+            i = (i - 1) / 2;
+        }
     }
 
-    vector<Node<T>*> getNodes(){
-        return this->data;
-    }
-      void increase(T val, int i){
+    void heapsort() {
         build();
-        if(i < 0 || i> data.size()){
-            cerr<<"ERROR INDICE"<<endl;
-            exit(-1);
-        }
-        if(val<data[i]->k){
-            cerr<<"ERROR VALUE"<<endl;
-            exit(-2);
-        }
-        data[i]->k=val;
-        while(i >= 0 && data[(i-1)/2]->k < data[i]->k){
-            swap(data[i], data[(i-1)/2]);
-            i = (i-1)/2;
+        for (int i = heapsize - 1; i >= 1; --i) {
+            swap(data[0], data[i]);
+            --heapsize;
+            max_heapify(0);
         }
     }
 
-    void heapsort(){
-        build();
-        for(int j = heapsize - 1; j >= 0; j--){
-            swap(data[0], data[j]);
-            heapsize--;
-            max_heap(0);
-        }
-    }
-
-
+    vector<Node<T>*> getNodes() const { return data; }
 };
 
 int main() {
     ifstream in("input.txt");
-    ofstream out("output099.txt");
-
+    ofstream out("output_max.txt");
     int val;
     vector<Node<int>*> nodes;
-    while(in>>val){
-        Node<int>* nodo = new Node<int>(val);
-        nodes.push_back(nodo);
-    }
 
-    Heap<int> H(nodes);
-    for(auto h:H.getNodes()){
-        out<<"Heap fatto: "<<h->k<<endl;
-    }
-    out<<"HEAPSORT"<<endl;
+    while (in >> val) nodes.push_back(new Node<int>(val));
+
+    MaxHeap<int> H(nodes);
+    out << "Max Heap iniziale:\n";
+    for (auto n : H.getNodes()) out << n->k << " ";
+    out << "\n\nHeap Sort:\n";
     H.heapsort();
-    for(auto h:H.getNodes()){
-        out<<h->k<<endl;
-    }
-
-    out<<"INCREASE"<<endl;
+    for (auto n : H.getNodes()) out << n->k << " ";
+    out << "\n\nIncrease:\n";
     H.increase(220000, 5);
-    for(auto h:H.getNodes()){
-        out<<h->k<<endl;
-    }
+    for (auto n : H.getNodes()) out << n->k << " ";
+
     in.close();
     out.close();
     return 0;
 }
-
