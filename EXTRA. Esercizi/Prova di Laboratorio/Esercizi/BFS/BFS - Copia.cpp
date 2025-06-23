@@ -39,19 +39,27 @@ class Graph{
     vector<Node<T>*> nodes;
     vector<Edge<T>*> edges;
     unordered_map<T, vector<pair<T,T>>> adj;
+    unordered_map<T, Node<T>*> node_map;
 
-    void addNode(Node<T>* node){
-        nodes.push_back(node);
+    Node<T>* get_node(T val) {
+    return node_map[val];
     }
-    
-    void addEdge(T weight, Node<T>* source, Node<T>* destination){
-        Edge<T>* edge = new Edge<int>(weight, source, destination);
-        edges.push_back(edge);
-        //In questo caso il grafo è orientato, per renderlo non orientato
-        //bisogna togliere il secondo adj ed inserire solo il primo
-        adj[source->val].push_back(make_pair(destination->val, weight));
-        adj[destination->val].push_back(make_pair(source->val, weight));
+
+    Node<T>* get_or_create_node(T val) {
+        if (node_map.find(val) == node_map.end()) {
+            Node<T>* node = new Node<T>(val);
+            node_map[val] = node;
+            nodes.push_back(node);
+        }
+        return node_map[val];
     }
+
+    void add_edge_by_values(T weight, T source_val, T dest_val) {
+        Node<T>* source = get_or_create_node(source_val);
+        Node<T>* dest = get_or_create_node(dest_val);
+        addEdge(weight, source, dest);
+    }
+
     //Lo pseudocodice è molto simile, vi consiglio di leggere quello
 
     void BFS(Node<T>* snode){
@@ -92,46 +100,32 @@ class Graph{
 
 
 };
-int main(){
-    //Ho usato la lettura e scrittura su file, in genere Ferone lo chiede
-    //ma leggete bene la traccia che potrebbe chiedere su video.
+
+int main() {
     ifstream in("input.txt");
     int numnodes, numedges;
-    in>>numnodes>>numedges;
-    unordered_map<int, Node<int>*> nodesmap;
+    in >> numnodes >> numedges;
+
     Graph<int> g;
-    for(int i = 0; i < numedges; i++){
-        int weight, sourceval, desteval;
-        in>>weight>>sourceval>>desteval;
-        Node<int>* sourcen = nullptr;
-        auto itsource = nodesmap.find(sourceval);
-        if(itsource == nodesmap.end()){
-            sourcen = new Node<int>(sourceval);
-            nodesmap[sourceval] = sourcen;
-            g.addNode(sourcen);
-        } else {
-            sourcen = itsource->second;
-        }
-        Node<int>* desten = nullptr;
-        auto itdeste = nodesmap.find(desteval);
-        if(itdeste == nodesmap.end()){
-            desten = new Node<int>(desteval);
-            nodesmap[desteval] = desten;
-            g.addNode(desten);
-        } else {
-            desten = itdeste->second;
-        }
-        g.addEdge(weight, sourcen, desten);
+
+    for (int i = 0; i < numedges; i++) {
+        int weight, sourceval, destval;
+        in >> weight >> sourceval >> destval;
+        g.add_edge_by_values(weight, sourceval, destval);
     }
     in.close();
-    Node<int>* snode = g.nodes[0];
-    ofstream out("output.txt");
+
+    Node<int>* snode = g.get_node(g.nodes[0]->val);
+
     g.BFS(snode);
-    out<<"DISTANZE DAL NODO "<<snode->val<<":\n"<<endl;
-    for(Node<int>* node : g.nodes){
-        out<<"DISTANZA DAL NODO "<<node->val<<": "<<node->distance<<endl;
+
+    ofstream out("output.txt");
+    out << "DISTANZE DAL NODO " << snode->val << ":\n\n";
+    for (Node<int>* node : g.nodes) {
+        out << "DISTANZA DAL NODO " << node->val << ": " << node->distance << endl;
     }
     out.close();
-    cout<<"File creato"<<endl;
+
+    cout << "File creato\n";
     return 0;
 }
