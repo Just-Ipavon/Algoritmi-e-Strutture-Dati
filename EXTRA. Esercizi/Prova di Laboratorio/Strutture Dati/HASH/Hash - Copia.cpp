@@ -2,9 +2,7 @@
 #include<fstream>
 #include<vector>
 
-//L'HASH E' UNA CATEGORIA CHE RIMANE INTATTA OGNI VOLTA CHE ESCE
-//PUO' CHIAMARE IL FILE DI INPUT CHE POTREBBE DARE FERONE
-//VI CONSIGLIO DI ESERCITARVI ANCHE CON CARATTERI, INTERI E STRINGHE
+
 using namespace std;
 
 template<typename T, typename S>
@@ -105,8 +103,7 @@ int main(){
         H.insert(itemx);
     }   
     in.close();
-    //PER RICERCARE PUOI USARE IL METODO CHE VUOI, PER CONVEZIONE HO 
-    //USATO QUESTO
+    
     item<int, string>*result = H.find(1); // oppure item<int, char> nel caso di una ricerca col char
     ofstream out("output.txt");
     if(result != nullptr){
