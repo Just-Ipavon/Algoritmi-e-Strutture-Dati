@@ -1,11 +1,10 @@
 - [X] dijkstra
 - [X] bellman-ford
-- [ ] bst (completo)
+- [X] bst (completo)
 - [X] heap (completo)
 - [ ] prim
-- [ ] classificazione archi DFS
+- [X] classificazione archi DFS
 - [X] HashTable chaining (completo)
 - [X] HashTable open addressing (completo)
-- [ ] formule di hash universale
 - [X] huffman
 - [ ]  Ciclo Hamiltoniano
