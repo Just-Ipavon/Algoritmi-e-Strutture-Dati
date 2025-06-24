@@ -83,6 +83,30 @@ public:
     Node* get_root() const {
         return root;
     }
+
+    // Metodo di decodifica
+    string decode(const string& encoded_str) const {
+        string decoded = "";
+        Node* current = root;
+        for (char bit : encoded_str) {
+            if (!current) break;
+            if (bit == '0') {
+                current = current->left;
+            } else if (bit == '1') {
+                current = current->right;
+            } else {
+                // Ignora caratteri non binari
+                continue;
+            }
+
+            // Se siamo in una foglia, aggiungiamo il carattere decodificato
+            if (current && !current->left && !current->right) {
+                decoded += current->ch;
+                current = root;
+            }
+        }
+        return decoded;
+    }
 };
 
 int main() {
@@ -106,6 +130,17 @@ int main() {
     h.build(data);
     h.print_codes(out);
 
+    // Esempio: decodifica di una stringa codificata (da inserire o leggere)
+    // Qui come esempio stringa codificata codici concatenati, ad esempio "010011..."
+    string encoded_string;
+    cout << "Inserisci la stringa codificata da decodificare (es. 010011...): ";
+    cin >> encoded_string;
+
+    string decoded = h.decode(encoded_string);
+    out << "\nDecodifica della stringa '" << encoded_string << "': " << decoded << "\n";
+
     cout << "Codici Huffman generati e salvati in output.txt\n";
+    cout << "Decodifica della stringa codificata: " << decoded << endl;
+
     return 0;
 }
