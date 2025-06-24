@@ -38,6 +38,7 @@ public:
         build();
     }
 
+    // Incrementa il valore di data[i] a val e risistema il max heap
     void increase(T val, int i) {
         if (i < 0 || i >= heapsize || val < data[i]->k) {
             cerr << "Invalid increase request." << endl;
@@ -50,13 +51,16 @@ public:
         }
     }
 
+    // Heapsort che ordina il vettore in ordine crescente
     void heapsort() {
         build();
+        int original_size = heapsize;
         for (int i = heapsize - 1; i >= 1; --i) {
             swap(data[0], data[i]);
             --heapsize;
             max_heapify(0);
         }
+        heapsize = original_size; // ripristina heapsize dopo ordinamento
     }
 
     vector<Node<T>*> getNodes() const { return data; }
@@ -71,6 +75,7 @@ int main() {
     while (in >> val) nodes.push_back(new Node<int>(val));
 
     MaxHeap<int> H(nodes);
+
     out << "Max Heap iniziale:\n";
     for (auto n : H.getNodes()) out << n->k << " ";
     out << "\n\nHeap Sort:\n";

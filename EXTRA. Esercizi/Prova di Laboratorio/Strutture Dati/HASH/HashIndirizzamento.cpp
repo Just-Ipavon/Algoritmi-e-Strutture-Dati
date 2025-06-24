@@ -94,18 +94,17 @@ int main() {
     // <2,world>
     // Leggo delimitatori '<' e ',' e '>' per leggere key e val
     hashtable<int, string> H(999);
-    char dummy; // per leggere delimitatori
     int key;
     string val;
+    char dummy1, dummy2, dummy3; // per leggere < , >
 
-    while (in >> dummy >> key >> dummy) { // legge '<' key ','
-        getline(in, val, '>');              // legge valore fino a '>'
-        // Rimuovo eventuali spazi iniziali o finali in val (opzionale)
-        while (!val.empty() && (val[0] == ' ' || val[0] == '\t')) val.erase(0, 1);
-        while (!val.empty() && (val[val.size()-1] == ' ' || val[val.size()-1] == '\t')) val.erase(val.size() - 1);
-        
-        item<int, string>* itm = new item<int, string>(key, val);
-        H.insert(itm);
+
+
+    while (in >> dummy1 >> key >> dummy2) {   // legge '<' key ','
+        in >> val;                           // legge la parola dopo la virgola
+        in >> dummy3;                       // legge '>'
+
+        cout << "Key: " << key << " Val: " << val << "\n";
     }
     in.close();
 

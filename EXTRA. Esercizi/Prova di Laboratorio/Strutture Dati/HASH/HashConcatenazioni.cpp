@@ -82,17 +82,17 @@ int main() {
 
     hashtable<int, string> H(999);
 
-    char dummy;
     int key;
     string val;
+    char dummy1, dummy2, dummy3; // per leggere < , >
 
-    while (in >> dummy >> key >> dummy) { // legge '<' key ','
-        getline(in, val, '>');            // legge fino a '>'
-        while (!val.empty() && (val[0] == ' ' || val[0] == '\t')) val.erase(0, 1);
-        while (!val.empty() && (val.back() == ' ' || val.back() == '\t')) val.pop_back();
 
-        item<int, string> itm(key, val);
-        H.insert(itm);
+
+    while (in >> dummy1 >> key >> dummy2) {   // legge '<' key ','
+        in >> val;                           // legge la parola dopo la virgola
+        in >> dummy3;                       // legge '>'
+
+        cout << "Key: " << key << " Val: " << val << "\n";
     }
     in.close();
 
