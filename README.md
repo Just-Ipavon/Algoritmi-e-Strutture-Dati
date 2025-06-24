@@ -66,7 +66,7 @@ Il corso teorico esplora i concetti fondamentali degli algoritmi e delle struttu
 
 La parte pratica del corso si concentra sull'implementazione e la testatura degli algoritmi e delle strutture dati utilizzando **C++** come linguaggio di programmazione. Le attività pratiche includono:
 
-### [**Lavorare con Alberi e Grafi**](EXTRA.%20Esercizi/Prova%20di%20Laboratorio/)
+### [**Lavorare con le strutture dati spiegate durante il corso**](EXTRA.%20Esercizi/Prova%20di%20Laboratorio/)
 - Scrivere programmi per esplorare e manipolare strutture ad albero e grafi, implementando algoritmi come **DFS**, **BFS**, e l'algoritmo di **Dijkstra** per la ricerca del percorso più breve.
 - Implementare algoritmi di **Minimum Spanning Tree** come  **Prim**.
 - Implementare e testare **Tabelle Hash** per la ricerca efficiente.
