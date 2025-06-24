@@ -19,7 +19,7 @@ Il corso teorico esplora i concetti fondamentali degli algoritmi e delle struttu
 - **Ricerca**:
   - Ricerca Lineare
   - Ricerca Binaria
-- **Ordinamento**:
+- [**Ordinamento**](1.%20algoritmi%20di%20ordinamento/):
   - Bubble Sort
   - Merge Sort
   - QuickSort
