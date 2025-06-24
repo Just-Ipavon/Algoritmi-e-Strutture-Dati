@@ -60,7 +60,7 @@ Il corso teorico esplora i concetti fondamentali degli algoritmi e delle struttu
 
 ### **Problemi P/NP e NP-Completi**
 - Discussione sulla teoria della complessità computazionale, inclusi i problemi P, NP e la classe di problemi NP-completi.
-  ---
+
 
 ## 2️⃣ Pratica (Prof. Ferone)
 
