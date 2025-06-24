@@ -64,18 +64,11 @@ Il corso teorico esplora i concetti fondamentali degli algoritmi e delle struttu
 
 ## 2️⃣ Pratica (Prof. Ferone)
 
-La parte pratica del corso si concentra sull'implementazione e la testatura degli algoritmi e delle strutture dati utilizzando linguaggi di programmazione come **Cpp**. Le attività pratiche includono:
+La parte pratica del corso si concentra sull'implementazione e la testatura degli algoritmi e delle strutture dati utilizzando **C++** come linguaggio di programmazione. Le attività pratiche includono:
 
-### **Implementazione degli Algoritmi di Ordinamento**
-- Scrivere e testare vari algoritmi di ordinamento, come **Bubble Sort**, **Merge Sort**, e **QuickSort**, per comprendere le differenze in termini di complessità temporale e spaziale.
-
-### **Gestione di Strutture Dati**
-- Implementare strutture dati fondamentali come **Liste**, **Stack** e **Code** e usarle per risolvere problemi pratici.
-  
 ### **Lavorare con Alberi e Grafi**
 - Scrivere programmi per esplorare e manipolare strutture ad albero e grafi, implementando algoritmi come **DFS**, **BFS**, e l'algoritmo di **Dijkstra** per la ricerca del percorso più breve.
-- Implementare algoritmi di **Minimum Spanning Tree** come **Kruskal** e **Prim**.
-- Risolvere problemi pratici utilizzando algoritmi di **Programmazione Dinamica** e **Algoritmi Greedy**.
+- Implementare algoritmi di **Minimum Spanning Tree** come  **Prim**.
 - Implementare e testare **Tabelle Hash** per la ricerca efficiente.
 - Implementare algoritmi di **Ricerca** come la **Ricerca Lineare** e la **Ricerca Binaria**.
 - Implementare e testare **Heap** per la gestione di priorità.
