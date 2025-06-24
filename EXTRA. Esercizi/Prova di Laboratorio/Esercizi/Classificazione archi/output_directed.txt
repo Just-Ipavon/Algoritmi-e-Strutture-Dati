@@ -1,0 +1,15 @@
+Lista di adiacenza (grafo orientato):
+4 -> (1, peso: 1) (5, peso: 2) 
+3 -> (4, peso: 5) 
+2 -> (3, peso: 1) 
+1 -> (3, peso: 4) 
+0 -> (1, peso: 3) (2, peso: 2) 
+
+Classificazione degli archi (DFS da nodo 0):
+Arco TREE:     (0 -> 1)
+Arco TREE:     (1 -> 3)
+Arco TREE:     (3 -> 4)
+Arco BACK:     (4 -> 1)
+Arco TREE:     (4 -> 5)
+Arco TREE:     (0 -> 2)
+Arco CROSS:    (2 -> 3)
