@@ -1,0 +1,9 @@
+Codici di Huffman:
+e: 111
+b: 1101
+a: 1100
+d: 101
+c: 100
+f: 0
+
+Decodifica della stringa '011001101': fab
