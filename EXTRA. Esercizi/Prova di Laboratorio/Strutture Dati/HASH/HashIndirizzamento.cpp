@@ -1,3 +1,4 @@
+// indirizzamento aperto
 #include <iostream>
 #include <fstream>
 #include <vector>
