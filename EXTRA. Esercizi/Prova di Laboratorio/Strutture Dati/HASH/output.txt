@@ -1,4 +1,46 @@
-L'elemento richiesto ha come chiave: 1 ed il valore: Nbs
+L'elemento richiesto ha come chiave: 2 ed il valore: Oldi
+
+Tabella PRIMA della rimozione:
 CHIAVE: 1 VALORE: Nbs
-CHIAVE: 3 VALORE: ABC
 CHIAVE: 2 VALORE: Oldi
+CHIAVE: 3 VALORE: ABC
+CHIAVE: 4 VALORE: Test
+CHIAVE: 5 VALORE: Hash
+CHIAVE: 6 VALORE: Table
+CHIAVE: 7 VALORE: Value
+CHIAVE: 8 VALORE: Insert
+CHIAVE: 9 VALORE: OpenAddressing
+CHIAVE: 10 VALORE: Collision
+CHIAVE: 11 VALORE: LinearProbing
+CHIAVE: 12 VALORE: Delete
+CHIAVE: 13 VALORE: FindMe
+CHIAVE: 14 VALORE: Overwrite
+CHIAVE: 15 VALORE: SlotFull
+CHIAVE: 16 VALORE: WrapAround
+CHIAVE: 17 VALORE: EdgeCase
+CHIAVE: 18 VALORE: Finale
+CHIAVE: 19 VALORE: KeyVal
+CHIAVE: 20 VALORE: Complete
+CHIAVE: 21 VALORE: CER
+
+Tabella DOPO la rimozione della chiave 1:
+CHIAVE: 2 VALORE: Oldi
+CHIAVE: 3 VALORE: ABC
+CHIAVE: 4 VALORE: Test
+CHIAVE: 5 VALORE: Hash
+CHIAVE: 6 VALORE: Table
+CHIAVE: 7 VALORE: Value
+CHIAVE: 8 VALORE: Insert
+CHIAVE: 9 VALORE: OpenAddressing
+CHIAVE: 10 VALORE: Collision
+CHIAVE: 11 VALORE: LinearProbing
+CHIAVE: 12 VALORE: Delete
+CHIAVE: 13 VALORE: FindMe
+CHIAVE: 14 VALORE: Overwrite
+CHIAVE: 15 VALORE: SlotFull
+CHIAVE: 16 VALORE: WrapAround
+CHIAVE: 17 VALORE: EdgeCase
+CHIAVE: 18 VALORE: Finale
+CHIAVE: 19 VALORE: KeyVal
+CHIAVE: 20 VALORE: Complete
+CHIAVE: 21 VALORE: CER

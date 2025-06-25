@@ -22,7 +22,7 @@ public:
     int m;
 
     hashtable(int m) : m(m) {
-        table.resize(m, nullptr);
+        table.resize(m, nullptr); // faccio il resize del vettore in modo che sia di dimensione m e riempito con null
     }
 
     int hash(T key, int i) {
@@ -98,8 +98,7 @@ int main() {
     }
     in.close();
 
-    // Test find
-    item<int, string>* result = H.find(1);
+    item<int, string>* result = H.find(2);
 
     ofstream out("output.txt");
     if (!out) {
@@ -107,6 +106,7 @@ int main() {
         return 1;
     }
 
+    // Stampa il risultato della ricerca
     if (result != nullptr) {
         out << "L'elemento richiesto ha come chiave: " << result->key
             << " ed il valore: " << result->val << endl;
@@ -114,8 +114,15 @@ int main() {
         out << "L'elemento non esiste" << endl;
     }
 
-    // Rimuovi la chiave 2
-    H.remove(2);
+    // PRIMA della rimozione
+    out << "\nTabella PRIMA della rimozione:\n";
+    H.print(out);
+
+    // Rimuovi la chiave 1
+    H.remove(1);
+
+    // DOPO la rimozione
+    out << "\nTabella DOPO la rimozione della chiave 1:\n";
     H.print(out);
 
     out.close();
