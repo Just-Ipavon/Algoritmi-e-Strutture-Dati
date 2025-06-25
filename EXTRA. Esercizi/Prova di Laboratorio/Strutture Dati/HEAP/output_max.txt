@@ -1,0 +1,8 @@
+Max Heap iniziale:
+3958393 8594 455 777 498 48 32 665 0 7 5 6 
+
+Max Heap dopo increase_key(5, 220000):
+3958393 8594 220000 777 498 455 32 665 0 7 5 6 
+
+Max Heap dopo heapsort (ordinato crescente):
+0 5 6 7 32 455 498 665 777 8594 220000 3958393 
