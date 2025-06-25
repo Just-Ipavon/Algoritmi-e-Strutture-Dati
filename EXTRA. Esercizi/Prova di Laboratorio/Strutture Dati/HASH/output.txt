@@ -1,0 +1,4 @@
+L'elemento richiesto ha come chiave: 1 ed il valore: Nbs
+CHIAVE: 1 VALORE: Nbs
+CHIAVE: 3 VALORE: ABC
+CHIAVE: 2 VALORE: Oldi

@@ -26,7 +26,6 @@ public:
     }
 
     int hash(T key, int i) {
-        // Funzione hash semplice: (key + i) modulo m
         return (key + i) % m;
     }
 
@@ -37,9 +36,8 @@ public:
             if (table[j] == nullptr) {
                 table[j] = itm;
                 return;
-            } else {
-                i++;
             }
+            i++;
         }
         cout << "ERROR: table full, cannot insert key " << itm->key << endl;
     }
@@ -48,12 +46,8 @@ public:
         int i = 0;
         while (i < m) {
             int j = hash(key, i);
-            if (table[j] == nullptr) {
-                return nullptr; // Non trovato
-            }
-            if (table[j]->key == key) {
-                return table[j];
-            }
+            if (table[j] == nullptr) return nullptr;
+            if (table[j]->key == key) return table[j];
             i++;
         }
         return nullptr;
@@ -63,7 +57,7 @@ public:
         int i = 0;
         while (i < m) {
             int j = hash(key, i);
-            if (table[j] == nullptr) return; // Non trovato
+            if (table[j] == nullptr) return;
             if (table[j]->key == key) {
                 delete table[j];
                 table[j] = nullptr;
@@ -89,26 +83,22 @@ int main() {
         return 1;
     }
 
-    // Per esempio, file con righe tipo:
-    // <1,hello>
-    // <2,world>
-    // Leggo delimitatori '<' e ',' e '>' per leggere key e val
     hashtable<int, string> H(999);
     int key;
     string val;
-    char dummy1, dummy2, dummy3; // per leggere < , >
+    char dummy;
 
+    while (in >> dummy >> key >> dummy) { // legge '<' e ','
+        getline(in, val, '>');            // legge la stringa fino a '>'
+        // Rimuove eventuali spazi
+        while (!val.empty() && (val[0] == ' ' || val[0] == '\t')) val.erase(0, 1);
+        while (!val.empty() && (val.back() == ' ' || val.back() == '\t')) val.pop_back();
 
-
-    while (in >> dummy1 >> key >> dummy2) {   // legge '<' key ','
-        in >> val;                           // legge la parola dopo la virgola
-        in >> dummy3;                       // legge '>'
-
-        cout << "Key: " << key << " Val: " << val << "\n";
+        H.insert(new item<int, string>(key, val));
     }
     in.close();
 
-    // Test find e rimozione
+    // Test find
     item<int, string>* result = H.find(1);
 
     ofstream out("output.txt");
@@ -118,11 +108,13 @@ int main() {
     }
 
     if (result != nullptr) {
-        out << "L'elemento richiesto ha come chiave: " << result->key << " ed il valore: " << result->val << endl;
+        out << "L'elemento richiesto ha come chiave: " << result->key
+            << " ed il valore: " << result->val << endl;
     } else {
         out << "L'elemento non esiste" << endl;
     }
 
+    // Rimuovi la chiave 2
     H.remove(2);
     H.print(out);
 
