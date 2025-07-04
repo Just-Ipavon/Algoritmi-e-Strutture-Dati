@@ -20,21 +20,19 @@ public:
 template<typename T, typename S>
 class hashtable {
 public:
-    vector<list<item<T, S>>> table; // Ogni cella è una lista
+    vector<list<item<T, S>>> table;
     int m;
 
     hashtable(int m) : m(m) {
         table.resize(m);
     }
 
-    // Funzione hash base
     int hash(T key) {
         return key % m;
     }
 
     void insert(item<T, S> itm) {
         int idx = hash(itm.key);
-        // Aggiorna valore se chiave già esistente
         for (auto& existing : table[idx]) {
             if (existing.key == itm.key) {
                 existing.val = itm.val;
@@ -44,11 +42,11 @@ public:
         table[idx].push_back(itm);
     }
 
-    item<T, S>* find(T key) {
+    item<T, S>* find(T key) const {
         int idx = hash(key);
-        for (auto& itm : table[idx]) {
+        for (const auto& itm : table[idx]) {
             if (itm.key == key) {
-                return &itm;
+                return const_cast<item<T, S>*>(&itm); // safe per uso semplice
             }
         }
         return nullptr;
@@ -64,7 +62,7 @@ public:
         }
     }
 
-    void print(ofstream& out) {
+    void print(ofstream& out) const {
         for (int i = 0; i < m; i++) {
             for (const auto& itm : table[i]) {
                 out << "CHIAVE: " << itm.key << " VALORE: " << itm.val << endl;
@@ -73,31 +71,46 @@ public:
     }
 };
 
-int main() {
-    ifstream in("hashstringa.txt");
+// Funzione per leggere un file e popolare una hashtable
+void leggi_file(hashtable<int, string>& H, const string& filename) {
+    ifstream in(filename);
     if (!in) {
-        cerr << "Errore apertura file input\n";
-        return 1;
+        cerr << "Errore apertura file " << filename << endl;
+        return;
     }
-
-    hashtable<int, string> H(999);
 
     int key;
     string val;
-    char dummy1, dummy2, dummy3; // per leggere < , >
+    char dummy1, dummy2, dummy3;
 
-
-
-    while (in >> dummy1 >> key >> dummy2) {   // legge '<' key ','
-        in >> val;                           // legge la parola dopo la virgola
-        in >> dummy3;                       // legge '>'
-
-        cout << "Key: " << key << " Val: " << val << "\n";
+    while (in >> dummy1 >> key >> dummy2) {
+        in >> val;
+        in >> dummy3;
+        H.insert(item<int, string>(key, val));
     }
-    in.close();
 
-    // Test ricerca e rimozione
-    item<int, string>* result = H.find(1);
+    in.close();
+}
+
+// Funzione per verificare se due tabelle hash sono disgiunte
+template<typename T, typename S>
+bool disjoint(const hashtable<T, S>& H1, const hashtable<T, S>& H2) {
+    for (int i = 0; i < H1.m; ++i) {
+        for (const auto& itm : H1.table[i]) {
+            if (H2.find(itm.key)) {
+                return false; // Chiave in comune trovata
+            }
+        }
+    }
+    return true;
+}
+
+int main() {
+    hashtable<int, string> H1(999);
+    hashtable<int, string> H2(999);
+
+    leggi_file(H1, "input1.txt");
+    leggi_file(H2, "input2.txt");
 
     ofstream out("output.txt");
     if (!out) {
@@ -105,14 +118,16 @@ int main() {
         return 1;
     }
 
-    if (result != nullptr) {
-        out << "L'elemento richiesto ha come chiave: " << result->key << " ed il valore: " << result->val << endl;
+    if (disjoint(H1, H2)) {
+        out << "Le due tabelle hash sono disgiunte." << endl;
     } else {
-        out << "L'elemento non esiste" << endl;
+        out << "Le due tabelle hash NON sono disgiunte." << endl;
     }
 
-    H.remove(2); // Rimuovi la chiave 2
-    H.print(out); // Stampa il contenuto della tabella
+    out << "\nContenuto della prima tabella:\n";
+    H1.print(out);
+    out << "\nContenuto della seconda tabella:\n";
+    H2.print(out);
 
     out.close();
     cout << "File output.txt creato correttamente" << endl;
