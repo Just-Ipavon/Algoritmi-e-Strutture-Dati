@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum class Color { White, Grey, Black };
+enum Color { White, Grey, Black };
 
 const int INF = 1e9;
 
@@ -14,7 +14,7 @@ template <typename T>
 class Node {
 public:
     T value;
-    Color color = Color::White;
+    Color color = White;
     int distance = INF;
     Node<T>* parent = nullptr;
 
@@ -68,7 +68,7 @@ public:
 
     void bfs(T start, ofstream& out) {
         for (auto& [_, node] : nodes) {
-            node->color = Color::White;
+            node->color = White;
             node->distance = INF;
             node->parent = nullptr;
         }
@@ -76,7 +76,7 @@ public:
         if (!nodes.count(start)) return;
 
         Node<T>* src = nodes[start];
-        src->color = Color::Grey;
+        src->color = Grey;
         src->distance = 0;
 
         queue<Node<T>*> q;
@@ -89,8 +89,8 @@ public:
 
             for (auto& [v, _] : adj[u->value]) {
                 Node<T>* neighbor = nodes[v];
-                if (neighbor->color == Color::White) {
-                    neighbor->color = Color::Grey;
+                if (neighbor->color == White) {
+                    neighbor->color = Grey;
                     neighbor->distance = u->distance + 1;
                     neighbor->parent = u;
                     q.push(neighbor);

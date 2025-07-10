@@ -80,6 +80,54 @@ public:
             out << "chiave: " << p.first << ", valore: " << p.second << endl;
         }
     }
+
+    Node<T, S>* search(Node<T, S>* node, T key) {
+    if (node == nullptr || node->key == key)
+        return node;
+    if (key < node->key)
+        return search(node->left, key);
+    else
+        return search(node->right, key);
+    }
+
+    void transplant(Node<T, S>* u, Node<T, S>* v) {
+    if (u->parent == nullptr)
+        root = v;
+    else if (u == u->parent->left)
+        u->parent->left = v;
+    else
+        u->parent->right = v;
+    if (v != nullptr)
+        v->parent = u->parent;
+    }
+
+    void remove(T key) {
+    Node<T, S>* z = search(root, key);
+    if (z == nullptr) return;
+
+    if (z->left == nullptr) {
+        transplant(z, z->right);
+    } else if (z->right == nullptr) {
+        transplant(z, z->left);
+    } else {
+        Node<T, S>* y = minimum(z->right);
+        if (y->parent != z) {
+            transplant(y, y->right);
+            y->right = z->right;
+            if (y->right != nullptr)
+                y->right->parent = y;
+        }
+        transplant(z, y);
+        y->left = z->left;
+        if (y->left != nullptr)
+            y->left->parent = y;
+    }
+
+    delete z;
+    }
+
+
+
 };
 
 int main() {

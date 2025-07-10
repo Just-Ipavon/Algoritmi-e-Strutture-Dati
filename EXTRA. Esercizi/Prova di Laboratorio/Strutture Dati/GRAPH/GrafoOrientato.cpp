@@ -7,7 +7,7 @@
 
 using namespace std;
 
-enum class Color { White, Grey, Black };
+enum Color { White, Grey, Black };
 
 const int INF = 1e9;
 
@@ -15,7 +15,7 @@ template <typename T>
 class Node {
 public:
     T value;
-    Color color = Color::White;
+    Color color = White;
     int distance = INF;
     Node<T>* parent = nullptr;
 
@@ -39,16 +39,16 @@ private:
     unordered_map<T, vector<pair<T, int>>> adj;
 
     void dfs_visit(Node<T>* node, ofstream& out) {
-        node->color = Color::Grey;
+        node->color = Grey;
         out << node->value << " ";
         for (auto& [neighbor, _] : adj[node->value]) {
             Node<T>* next = nodes[neighbor];
-            if (next->color == Color::White) {
+            if (next->color == White) {
                 next->parent = node;
                 dfs_visit(next, out);
             }
         }
-        node->color = Color::Black;
+        node->color = Black;
     }
 
 public:
@@ -80,7 +80,7 @@ public:
 
     void dfs(T start, ofstream& out) {
         for (auto& [_, node] : nodes) {
-            node->color = Color::White;
+            node->color = White;
             node->parent = nullptr;
         }
         if (nodes.count(start)) {
