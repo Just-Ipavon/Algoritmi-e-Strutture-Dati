@@ -1,94 +1,79 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <unordered_map>
 #include <queue>
-
+#include <map>
 using namespace std;
-
-enum Color { White, Grey, Black };
 
 const int INF = 1e9;
 
-template <typename T>
+enum Color { White, Grey, Black };
+
 class Node {
 public:
-    T value;
-    Color color = White;
-    int distance = INF;
-    Node<T>* parent = nullptr;
+    int value;
+    Color color;
+    int distance;
+    Node* parent;
 
-    Node(T val) : value(val) {}
+    Node(int val) {
+        value = val;
+        color = White;
+        distance = INF;
+        parent = nullptr;
+    }
 };
 
-template <typename T>
-class Edge {
-public:
-    int weight;
-    Node<T>* from;
-    Node<T>* to;
-
-    Edge(int w, Node<T>* f, Node<T>* t)
-        : weight(w), from(f), to(t) {}
-};
-
-template <typename T>
 class GraphUndirected {
 private:
-    unordered_map<T, Node<T>*> nodes;
-    unordered_map<T, vector<pair<T, int>>> adj;
+    map<int, Node*> nodes;
+    map<int, vector< pair<int, int> > > adj;
 
 public:
-    vector<Edge<T>*> edges;
-
-    Node<T>* add_node(T val) {
-        if (!nodes.count(val)) {
-            nodes[val] = new Node<T>(val);
-        }
-        return nodes[val];
+    void add_edge(int from, int to, int weight) {
+        if (nodes.count(from) == 0) nodes[from] = new Node(from);
+        if (nodes.count(to) == 0) nodes[to] = new Node(to);
+        adj[from].push_back(make_pair(to, weight));
+        adj[to].push_back(make_pair(from, weight));
     }
 
-    void add_edge(T from, T to, int weight) {
-        Node<T>* src = add_node(from);
-        Node<T>* dest = add_node(to);
-        edges.push_back(new Edge<T>(weight, src, dest));
-        adj[from].emplace_back(to, weight);
-        adj[to].emplace_back(from, weight); // non orientato
-    }
-
-    void print_adjacency_list(ostream& out) const {
-        for (const auto& [node, neighbors] : adj) {
+    void print_adjacency_list(ofstream& out) {
+        for (const auto& entry : adj) {
+            int node = entry.first;
+            const vector< pair<int, int> >& neighbors = entry.second;
             out << node << " -> ";
-            for (const auto& [dest, w] : neighbors) {
-                out << "(" << dest << ", peso: " << w << ") ";
+            for (const auto& neighbor : neighbors) {
+                out << "(" << neighbor.first << ", peso: " << neighbor.second << ") ";
             }
             out << "\n";
         }
     }
 
-    void bfs(T start, ofstream& out) {
-        for (auto& [_, node] : nodes) {
-            node->color = White;
-            node->distance = INF;
-            node->parent = nullptr;
+    void bfs(int start, ofstream& out) {
+        for (auto& entry : nodes) {
+            Node* n = entry.second;
+            n->color = White;
+            n->distance = INF;
+            n->parent = nullptr;
         }
 
-        if (!nodes.count(start)) return;
+        if (nodes.count(start) == 0) return;
 
-        Node<T>* src = nodes[start];
+        Node* src = nodes[start];
         src->color = Grey;
         src->distance = 0;
 
-        queue<Node<T>*> q;
+        queue<Node*> q;
         q.push(src);
 
         while (!q.empty()) {
-            Node<T>* u = q.front();
+            Node* u = q.front();
             q.pop();
             out << u->value << " ";
 
-            for (auto& [v, _] : adj[u->value]) {
-                Node<T>* neighbor = nodes[v];
+            for (const auto& neighbor_info : adj[u->value]) {
+                int neighbor_id = neighbor_info.first;
+                Node* neighbor = nodes[neighbor_id];
                 if (neighbor->color == White) {
                     neighbor->color = Grey;
                     neighbor->distance = u->distance + 1;
@@ -96,13 +81,15 @@ public:
                     q.push(neighbor);
                 }
             }
-            u->color = Color::Black;
+
+            u->color = Black;
         }
     }
 
     ~GraphUndirected() {
-        for (auto& [_, n] : nodes) delete n;
-        for (auto& e : edges) delete e;
+        for (auto& entry : nodes) {
+            delete entry.second;
+        }
     }
 };
 
@@ -118,7 +105,7 @@ int main() {
     int n, m;
     in >> n >> m;
 
-    GraphUndirected<int> g;
+    GraphUndirected g;
 
     for (int i = 0; i < m; ++i) {
         int u, v, w;
@@ -128,9 +115,10 @@ int main() {
 
     out << "Lista di adiacenza (grafo non orientato):\n";
     g.print_adjacency_list(out);
+
     out << "\nVisita BFS dal nodo 0:\n";
     g.bfs(0, out);
 
-    cout << "Grafo non orientato caricato, BFS eseguita. Output in output_undirected.txt\n";
+    cout << "Grafo caricato ed esplorato in BFS. Controlla output_undirected.txt\n";
     return 0;
 }
