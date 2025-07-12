@@ -44,14 +44,14 @@ public:
             nodes[val] = new Node<T>(val);
     }
 
-    void add_edge(T u, T v) {
-        add_node(u);
-        add_node(v);
-        Node<T>* nu = nodes[u];
-        Node<T>* nv = nodes[v];
-        edges.push_back(new Edge<T>(nu, nv));
-        adj[u].push_back(v);
-        adj[v].push_back(u);   // non orientato
+    void add_edge(T from, T to) {
+        add_node(from);
+        add_node(to);
+        Node<T>* FromNode = nodes[from];
+        Node<T>* ToNode = nodes[to];
+        edges.push_back(new Edge<T>(FromNode, ToNode));
+        adj[from].push_back(to);
+        adj[to].push_back(from);   // non orientato
     }
 
     void print_adjacency_list(ostream& out) {
