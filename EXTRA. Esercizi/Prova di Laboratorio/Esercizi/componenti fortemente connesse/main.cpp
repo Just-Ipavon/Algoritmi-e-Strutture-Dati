@@ -1,16 +1,29 @@
-#include <iostream> #include <fstream> #include <map> #include <vector> #include <algorithm>
+#include <iostream>
+#include <fstream> 
+#include <map> 
+#include <vector> 
+#include <algorithm>
 
 using namespace std;
 
 enum Color { White, Grey, Black };
 
-template <typename T> class Node { public: T value; Color color = White; Node<T>* parent = nullptr;
+template <typename T> 
+class Node { 
+public: T value; 
+Color color = White; 
+Node<T>* parent = nullptr;
 
 Node(T val) : value(val) {}
 
 };
 
-template <typename T> class Edge { public: Node<T>* from; Node<T>* to; int weight;
+template <typename T> 
+class Edge { 
+public: 
+Node<T>* from; 
+Node<T>* to; 
+int weight;
 
 Edge(Node<T>* f, Node<T>* t, int w = 1) : from(f), to(t), weight(w) {}
 
@@ -18,8 +31,11 @@ Edge(Node<T>* f, Node<T>* t, int w = 1) : from(f), to(t), weight(w) {}
 
 template <typename T> 
 class GraphDirected {
-private: map<T, Node<T>> nodes; map<T, vector<Edge<T>>> adj;
-   map<T, vector<Edge<T>>> adj_transposed; map<T, int> finish_time; 
+private: 
+   map<T, Node<T>> nodes; 
+   map<T, vector<Edge<T>>> adj;
+   map<T, vector<Edge<T>>> adj_transposed;
+   map<T, int> finish_time; 
    int time = 0; 
    vector<Edge<T>> all_edges;
 
