@@ -10,9 +10,10 @@ enum Color { White, Grey, Black };
 
 template <typename T> 
 class Node { 
-public: T value; 
-Color color = White; 
-Node<T>* parent = nullptr;
+public:
+   T value; 
+   Color color = White; 
+   Node<T>* parent = nullptr;
 
 Node(T val) : value(val) {}
 
@@ -21,9 +22,9 @@ Node(T val) : value(val) {}
 template <typename T> 
 class Edge { 
 public: 
-Node<T>* from; 
-Node<T>* to; 
-int weight;
+  Node<T>* from; 
+  Node<T>* to; 
+  int weight;
 
 Edge(Node<T>* f, Node<T>* t, int w = 1) : from(f), to(t), weight(w) {}
 
