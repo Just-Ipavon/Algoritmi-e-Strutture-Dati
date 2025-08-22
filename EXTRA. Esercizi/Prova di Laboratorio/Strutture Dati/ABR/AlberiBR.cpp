@@ -1,6 +1,8 @@
 #include<iostream>
 #include<fstream>
 #include<vector>
+
+
 using namespace std;
 
 template<typename T, typename S>
@@ -26,6 +28,7 @@ public:
         root = nullptr;
     }
 
+    // Funzione per l'inserimento
     void insert(T key, S val) {
         Node<T, S>* nodein = new Node<T, S>(key, val);
         Node<T, S>* parentnode = nullptr;
@@ -33,7 +36,7 @@ public:
 
         while (currentnode != nullptr) {
             parentnode = currentnode;
-            if (nodein->val < currentnode->val) {
+            if (nodein->key < currentnode->key) { 
                 currentnode = currentnode->left;
             } else {
                 currentnode = currentnode->right;
@@ -42,13 +45,14 @@ public:
         nodein->parent = parentnode;
         if (parentnode == nullptr) {
             root = nodein;
-        } else if (nodein->val < parentnode->val) {
+        } else if (nodein->key < parentnode->key) { 
             parentnode->left = nodein;
         } else {
             parentnode->right = nodein;
         }
     }
 
+    // Visita in Pre-ordine
     void pre(Node<T, S>* node, vector<pair<T, S>>& v) {
         if (node) {
             v.push_back({node->key, node->val});
@@ -57,6 +61,7 @@ public:
         }
     }
 
+    // Visita in Post-ordine
     void post(Node<T, S>* node, vector<pair<T, S>>& v) {
         if (node) {
             post(node->left, v);
@@ -65,6 +70,7 @@ public:
         }
     }
 
+    // Funzione di stampa Pre-ordine
     void print(ofstream& out) {
         vector<pair<T, S>> preorder;
         pre(root, preorder);
@@ -73,6 +79,7 @@ public:
         }
     }
 
+    // Funzione di stampa Post-ordine
     void print_postorder(ofstream& out) {
         vector<pair<T, S>> postorder;
         post(root, postorder);
@@ -81,53 +88,75 @@ public:
         }
     }
 
+    // Funzione per la ricerca
     Node<T, S>* search(Node<T, S>* node, T key) {
-    if (node == nullptr || node->key == key)
-        return node;
-    if (key < node->key)
-        return search(node->left, key);
-    else
-        return search(node->right, key);
+        if (node == nullptr || node->key == key)
+            return node;
+        if (key < node->key)
+            return search(node->left, key);
+        else
+            return search(node->right, key);
     }
 
-    void transplant(Node<T, S>* u, Node<T, S>* v) {
-    if (u->parent == nullptr)
-        root = v;
-    else if (u == u->parent->left)
-        u->parent->left = v;
-    else
-        u->parent->right = v;
-    if (v != nullptr)
-        v->parent = u->parent;
-    }
-
-    void remove(T key) {
-    Node<T, S>* z = search(root, key);
-    if (z == nullptr) return;
-
-    if (z->left == nullptr) {
-        transplant(z, z->right);
-    } else if (z->right == nullptr) {
-        transplant(z, z->left);
-    } else {
-        Node<T, S>* y = minimum(z->right);
-        if (y->parent != z) {
-            transplant(y, y->right);
-            y->right = z->right;
-            if (y->right != nullptr)
-                y->right->parent = y;
+    // Funzione per trovare il nodo con la chiave minima
+    Node<T, S>* minimum(Node<T, S>* node) {
+        if (node == nullptr) return nullptr;
+        while (node->left != nullptr) {
+            node = node->left;
         }
-        transplant(z, y);
-        y->left = z->left;
-        if (y->left != nullptr)
-            y->left->parent = y;
+        return node;
     }
 
-    delete z;
+    // Funzione per la sostituzione
+    void transplant(Node<T, S>* u, Node<T, S>* v) {
+        if (u->parent == nullptr)
+            root = v;
+        else if (u == u->parent->left)
+            u->parent->left = v;
+        else
+            u->parent->right = v;
+        if (v != nullptr)
+            v->parent = u->parent;
     }
 
+    // Funzione per la rimozione di un nodo
+    void remove(T key) {
+        Node<T, S>* z = search(root, key);
+        if (z == nullptr) return; // Nodo non trovato
 
+        if (z->left == nullptr) {
+            transplant(z, z->right);
+        } else if (z->right == nullptr) {
+            transplant(z, z->left);
+        } else {
+            Node<T, S>* y = minimum(z->right);
+            if (y->parent != z) {
+                transplant(y, y->right);
+                y->right = z->right;
+                if (y->right != nullptr)
+                    y->right->parent = y;
+            }
+            transplant(z, y);
+            y->left = z->left;
+            if (y->left != nullptr)
+                y->left->parent = y;
+        }
+        delete z;
+    }
 
+    // Distruttore per liberare la memoria
+    ~ABR() {
+        svuotaAlbero(root);
+    }
+
+private:
+    void svuotaAlbero(Node<T, S>* node) {
+        if (node != nullptr) {
+            svuotaAlbero(node->left);
+            svuotaAlbero(node->right);
+            delete node;
+        }
+    }
 };
 
 int main() {
