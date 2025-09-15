@@ -1,125 +1,116 @@
-// indirizzamento aperto
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
-
+#include <list>
 using namespace std;
 
-template<typename T, typename S>
-class item {
-public:
-    T key;
-    S val;
 
-    item(T key, S val) : key(key), val(val) {}
+template<typename T,typename S>
+class Oggetto{
+public:
+    T chiave;
+    S valore;
+
+    Oggetto(T chiave,S valore) : chiave(chiave), valore(valore) {}
 };
 
 template<typename T, typename S>
-class hashtable {
+class Hash{
 public:
-    vector<item<T, S>*> table;
+    vector<list<Oggetto<T,S>>> tabella;
     int m;
 
-    hashtable(int m) : m(m) {
-        table.resize(m, nullptr); // faccio il resize del vettore in modo che sia di dimensione m e riempito con null
+    Hash(int m) : m(m){
+        tabella.resize(m);
     }
 
-    int hash(T key, int i) {
-        return (key + i) % m;
+    int hash(T chiave){
+        return chiave % m;
     }
 
-    void insert(item<T, S>* itm) {
-        int i = 0;
-        while (i < m) {
-            int j = hash(itm->key, i);
-            if (table[j] == nullptr) {
-                table[j] = itm;
+    void insert(T chiave, S valore){
+        int idx = hash(chiave);
+        for(auto& i : tabella[idx]){
+            if(i.chiave == chiave){
+                i.valore = valore;
                 return;
             }
-            i++;
         }
-        cout << "ERROR: table full, cannot insert key " << itm->key << endl;
+        tabella[idx].push_back(Oggetto<T,S>(chiave,valore));
     }
 
-    item<T, S>* find(T key) {
-        int i = 0;
-        while (i < m) {
-            int j = hash(key, i);
-            if (table[j] == nullptr) return nullptr;
-            if (table[j]->key == key) return table[j];
-            i++;
+    bool contiene(T chiave){
+        int idx = chiave % m;
+        for(auto& i : tabella[idx])
+            if(i.chiave == chiave) return true;
+        return false;
+    }
+
+
+    void stampa(ofstream& out){
+        for(int i = 0; i < m; i++)
+            for(auto& j : tabella[i])
+                out << j.chiave << " -> " << j.valore << "\n";
+    }
+
+    S* find(T chiave){
+        int idx = hash(chiave);
+        for(auto& oggetto : tabella[idx]){
+            if(oggetto.chiave == chiave){
+                return &(oggetto.valore);
+            }
         }
         return nullptr;
     }
 
-    void remove(T key) {
-        int i = 0;
-        while (i < m) {
-            int j = hash(key, i);
-            if (table[j] == nullptr) return;
-            if (table[j]->key == key) {
-                delete table[j];
-                table[j] = nullptr;
-                return;
-            }
-            i++;
-        }
-    }
-
-    void print(ofstream& out) {
-        for (int i = 0; i < m; i++) {
-            if (table[i] != nullptr) {
-                out << "CHIAVE: " << table[i]->key << " VALORE: " << table[i]->val << endl;
-            }
-        }
-    }
 };
 
-// Funzione di lettura del file, adattata dal primo codice
-void leggiFile(hashtable<int,string>& H, string file){
+void leggiFile(Hash<int,string>& H, string file){
     ifstream in(file);
     int k;
     string v;
     char c;
     while(in >> c && c == '<' && in >> k >> c && c == ','){
         getline(in, v, '>');
-        H.insert(new item<int, string>(k,v));
+        H.insert(k,v);
     }
-    in.close();
+}
+bool disjoint( Hash<int,string>& A,  Hash<int,string>& B){
+    for(int i = 0; i<A.m;i++)
+        for(auto& j : A.tabella[i])
+            if(B.contiene(j.chiave)) return false;
+    return true;
 }
 
 
-int main() {
-    hashtable<int, string> H(999);
-    
-    leggiFile(H, "hashstringa.txt");
 
-    item<int, string>* result = H.find(2);
+
+int main()
+{
+    int M = 999;
+    Hash<int,string> H1(M), H2(M);
+    leggiFile(H1,"input1.txt");
+    leggiFile(H2,"input2.txt");
 
     ofstream out("output.txt");
+    out << (disjoint(H1,H2) ? "Disgiunte\n" : "Non disgiunte");
 
-    // Stampa il risultato della ricerca
-    if (result != nullptr) {
-        out << "L'elemento richiesto ha come chiave: " << result->key
-            << " ed il valore: " << result->val << endl;
+    out << "\n Tabella 1\n"; H1.stampa(out);
+    out << "\n Tabella 2\n"; H2.stampa(out);
+
+     int chiaveDaCercare;
+     cout << "inserisci la chiave da cercare: ";
+     cin >> chiaveDaCercare;
+    string* valoreTrovato = H1.find(chiaveDaCercare);
+
+    if (valoreTrovato != nullptr) {
+        cout << "Trovato! La chiave " << chiaveDaCercare << " ha valore: " << *valoreTrovato << "\n"<<endl;
     } else {
-        out << "L'elemento non esiste" << endl;
+        cout << "La chiave non e' stata trovata nella tabella.\n"<<endl;
     }
 
-    // PRIMA della rimozione
-    out << "\nTabella PRIMA della rimozione:\n";
-    H.print(out);
 
-    // Rimuovi la chiave 1
-    H.remove(1);
 
-    // DOPO la rimozione
-    out << "\nTabella DOPO la rimozione della chiave 1:\n";
-    H.print(out);
-
-    out.close();
-    cout << "File output.txt creato correttamente" << endl;
 
     return 0;
 }
