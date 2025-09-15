@@ -76,35 +76,28 @@ public:
     }
 };
 
-int main() {
-    ifstream in("hashstringa.txt");
-    if (!in) {
-        cerr << "Errore apertura file input\n";
-        return 1;
-    }
-
-    hashtable<int, string> H(999);
-    int key;
-    string val;
-    char dummy;
-
-    while (in >> dummy >> key >> dummy) { // legge '<' e ','
-        getline(in, val, '>');            // legge la stringa fino a '>'
-        // Rimuove eventuali spazi
-        while (!val.empty() && (val[0] == ' ' || val[0] == '\t')) val.erase(0, 1);
-        while (!val.empty() && (val.back() == ' ' || val.back() == '\t')) val.pop_back();
-
-        H.insert(new item<int, string>(key, val));
+// Funzione di lettura del file, adattata dal primo codice
+void leggiFile(hashtable<int,string>& H, string file){
+    ifstream in(file);
+    int k;
+    string v;
+    char c;
+    while(in >> c && c == '<' && in >> k >> c && c == ','){
+        getline(in, v, '>');
+        H.insert(new item<int, string>(k,v));
     }
     in.close();
+}
+
+
+int main() {
+    hashtable<int, string> H(999);
+    
+    leggiFile(H, "hashstringa.txt");
 
     item<int, string>* result = H.find(2);
 
     ofstream out("output.txt");
-    if (!out) {
-        cerr << "Errore apertura file output\n";
-        return 1;
-    }
 
     // Stampa il risultato della ricerca
     if (result != nullptr) {

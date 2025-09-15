@@ -2,135 +2,115 @@
 #include <fstream>
 #include <vector>
 #include <list>
-#include <string>
-
 using namespace std;
 
-// Definizione della coppia chiave-valore
-template<typename T, typename S>
-class item {
-public:
-    T key;
-    S val;
 
-    item(T key, S val) : key(key), val(val) {}
+template<typename T,typename S>
+class Oggetto{
+public:
+    T chiave;
+    S valore;
+
+    Oggetto(T chiave,S valore) : chiave(chiave), valore(valore) {}
 };
 
-// Hash table con concatenamento
 template<typename T, typename S>
-class hashtable {
+class Hash{
 public:
-    vector<list<item<T, S>>> table;
+    vector<list<Oggetto<T,S>>> tabella;
     int m;
 
-    hashtable(int m) : m(m) {
-        table.resize(m);
+    Hash(int m) : m(m){
+        tabella.resize(m);
     }
 
-    int hash(T key) {
-        return key % m;
+    int hash(T chiave){
+        return chiave % m;
     }
 
-    void insert(item<T, S> itm) {
-        int idx = hash(itm.key);
-        for (auto& existing : table[idx]) {
-            if (existing.key == itm.key) {
-                existing.val = itm.val;
+    void insert(T chiave, S valore){
+        int idx = hash(chiave);
+        for(auto& i : tabella[idx]){
+            if(i.chiave == chiave){
+                i.valore = valore;
                 return;
             }
         }
-        table[idx].push_back(itm);
+        tabella[idx].push_back(Oggetto<T,S>(chiave,valore));
     }
 
-    item<T, S>* find(T key) const {
-        int idx = hash(key);
-        for (const auto& itm : table[idx]) {
-            if (itm.key == key) {
-                return const_cast<item<T, S>*>(&itm); // safe per uso semplice
+    bool contiene(T chiave){
+        int idx = chiave % m;
+        for(auto& i : tabella[idx])
+            if(i.chiave == chiave) return true;
+        return false;
+    }
+
+
+    void stampa(ofstream& out){
+        for(int i = 0; i < m; i++)
+            for(auto& j : tabella[i])
+                out << j.chiave << " -> " << j.valore << "\n";
+    }
+
+    S* find(T chiave){
+        int idx = hash(chiave);
+        for(auto& oggetto : tabella[idx]){
+            if(oggetto.chiave == chiave){
+                return &(oggetto.valore);
             }
         }
         return nullptr;
     }
 
-    void remove(T key) {
-        int idx = hash(key);
-        for (auto it = table[idx].begin(); it != table[idx].end(); ++it) {
-            if (it->key == key) {
-                table[idx].erase(it);
-                return;
-            }
-        }
-    }
-
-    void print(ofstream& out) const {
-        for (int i = 0; i < m; i++) {
-            for (const auto& itm : table[i]) {
-                out << "CHIAVE: " << itm.key << " VALORE: " << itm.val << endl;
-            }
-        }
-    }
 };
 
-// Funzione per leggere un file e popolare una hashtable
-void leggi_file(hashtable<int, string>& H, const string& filename) {
-    ifstream in(filename);
-    if (!in) {
-        cerr << "Errore apertura file " << filename << endl;
-        return;
+void leggiFile(Hash<int,string>& H, string file){
+    ifstream in(file);
+    int k;
+    string v;
+    char c;
+    while(in >> c && c == '<' && in >> k >> c && c == ','){
+        getline(in, v, '>');
+        H.insert(k,v);
     }
-
-    int key;
-    string val;
-    char dummy1, dummy2, dummy3;
-
-    while (in >> dummy1 >> key >> dummy2) {
-        in >> val;
-        in >> dummy3;
-        H.insert(item<int, string>(key, val));
-    }
-
-    in.close();
 }
-
-// Funzione per verificare se due tabelle hash sono disgiunte
-template<typename T, typename S>
-bool disjoint(const hashtable<T, S>& H1, const hashtable<T, S>& H2) {
-    for (int i = 0; i < H1.m; ++i) {
-        for (const auto& itm : H1.table[i]) {
-            if (H2.find(itm.key)) {
-                return false; // Chiave in comune trovata
-            }
-        }
-    }
+bool disjoint( Hash<int,string>& A,  Hash<int,string>& B){
+    for(int i = 0; i<A.m;i++)
+        for(auto& j : A.tabella[i])
+            if(B.contiene(j.chiave)) return false;
     return true;
 }
 
-int main() {
-    hashtable<int, string> H1(999);
-    hashtable<int, string> H2(999);
 
-    leggi_file(H1, "input1.txt");
-    leggi_file(H2, "input2.txt");
+
+
+int main()
+{
+    int M = 999;
+    Hash<int,string> H1(M), H2(M);
+    leggiFile(H1,"input1.txt");
+    leggiFile(H2,"input2.txt");
 
     ofstream out("output.txt");
-    if (!out) {
-        cerr << "Errore apertura file output\n";
-        return 1;
-    }
+    out << (disjoint(H1,H2) ? "Disgiunte\n" : "Non disgiunte");
 
-    if (disjoint(H1, H2)) {
-        out << "Le due tabelle hash sono disgiunte." << endl;
+    out << "\n Tabella 1\n"; H1.stampa(out);
+    out << "\n Tabella 2\n"; H2.stampa(out);
+
+     int chiaveDaCercare;
+     cout << "inserisci la chiave da cercare: ";
+     cin >> chiaveDaCercare;
+    string* valoreTrovato = H1.find(chiaveDaCercare);
+
+    if (valoreTrovato != nullptr) {
+        cout << "Trovato! La chiave " << chiaveDaCercare << " ha valore: " << *valoreTrovato << "\n"<<endl;
     } else {
-        out << "Le due tabelle hash NON sono disgiunte." << endl;
+        cout << "La chiave " << chiaveDaCercare << " non e' stata trovata nella tabella 1.\n"<<endl;
     }
 
-    out << "\nContenuto della prima tabella:\n";
-    H1.print(out);
-    out << "\nContenuto della seconda tabella:\n";
-    H2.print(out);
 
-    out.close();
-    cout << "File output.txt creato correttamente" << endl;
+
 
     return 0;
 }
