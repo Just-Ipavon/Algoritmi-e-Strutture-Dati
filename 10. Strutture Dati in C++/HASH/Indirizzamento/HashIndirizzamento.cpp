@@ -40,7 +40,7 @@ public:
     }
 
     bool contiene(T chiave){
-        int idx = chiave % m;
+        int idx = hash(chiave);
         for(auto& i : tabella[idx])
             if(i.chiave == chiave) return true;
         return false;
