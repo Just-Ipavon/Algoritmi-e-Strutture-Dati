@@ -22,7 +22,6 @@ public:
     Hash(int size) : m(size) {
         tabella = new Oggetto<T,S>[m];
     }
-    ~Hash() { delete[] tabella; }
 
     int hash(T chiave) { return chiave % m; }
 
