@@ -32,10 +32,10 @@ public:
 
         while (tabella[idx].occupied) {
             if (tabella[idx].chiave == chiave) {
-                tabella[idx].valore = valore; // aggiorna se esiste
+                tabella[idx].valore = valore;
                 return;
             }
-            idx = (idx + 1) % m; // linear probing
+            idx = (idx + 1) % m;
             if (idx == start) {
                 cerr << "Tabella piena!\n";
                 return;
