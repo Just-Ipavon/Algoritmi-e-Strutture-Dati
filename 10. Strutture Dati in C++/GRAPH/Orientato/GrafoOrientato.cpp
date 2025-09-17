@@ -101,7 +101,7 @@ int main() {
         g.add_edge(u, v, w);
     }
 
-    out << "Lista di adiacenza (grafo orientato):\n";
+    out << "Lista di adiacenza:\n";
     g.print_adjacency_list(out);
 
     out << "\nDFS dal nodo 0:\n";
