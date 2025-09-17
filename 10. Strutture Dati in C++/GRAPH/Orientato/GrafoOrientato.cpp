@@ -83,21 +83,12 @@ public:
 
         dfs_visit(nodes[start], out);
     }
-
-    ~GraphDirected() {
-        for (auto& e : edges) delete e;
-        for (auto& p : nodes) delete p.second;
-    }
 };
 
 int main() {
     ifstream in("input.txt");
-    ofstream out("output_orientato_dfs.txt");
+    ofstream out("output.txt");
 
-    if (!in || !out) {
-        cerr << "Errore apertura file.\n";
-        return 1;
-    }
 
     int n, m;
     in >> n >> m;
