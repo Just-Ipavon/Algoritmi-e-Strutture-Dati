@@ -55,6 +55,21 @@ public:
         return nullptr;
     }
 
+    bool remove(T chiave) {
+        int idx = hash(chiave);
+        int start = idx;
+
+        while (tabella[idx].occupied) {
+            if (tabella[idx].chiave == chiave) {
+                tabella[idx].occupied = false; 
+                return true;
+            }
+            idx = (idx + 1) % m;
+            if (idx == start) break;
+        }
+        return false;
+    }
+
     void stampa(ofstream& out) {
         for (int i = 0; i < m; i++)
             if (tabella[i].occupied)
@@ -81,7 +96,8 @@ int main() {
 
     ofstream out("output.txt");
 
-    out << "\nTabella 1\n"; H1.stampa(out);
+    out << "\nTabella 1\n"; 
+    H1.stampa(out);
 
     int chiaveDaCercare;
     cout << "Inserisci la chiave da cercare: ";
@@ -92,6 +108,23 @@ int main() {
         cout << "Trovato! La chiave " << chiaveDaCercare << " ha valore: " << *valoreTrovato << "\n";
     else
         cout << "La chiave " << chiaveDaCercare << " non e' stata trovata nella tabella.\n";
+
+    // PROVA DELETE
+    int chiaveDaEliminare;
+    cout << "Inserisci la chiave da eliminare: ";
+    cin >> chiaveDaEliminare;
+
+    if (H1.remove(chiaveDaEliminare))
+        cout << "Chiave " << chiaveDaEliminare << " eliminata con successo!\n";
+    else
+        cout << "Chiave " << chiaveDaEliminare << " non trovata.\n";
+
+    // Verifica dopo la cancellazione
+    valoreTrovato = H1.find(chiaveDaEliminare);
+    if (valoreTrovato)
+        cout << "ATTENZIONE: La chiave " << chiaveDaEliminare << " è ancora presente.\n";
+    else
+        cout << "Conferma: La chiave " << chiaveDaEliminare << " non è più nella tabella.\n";
 
     return 0;
 }
