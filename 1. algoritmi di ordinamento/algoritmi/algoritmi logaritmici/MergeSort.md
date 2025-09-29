@@ -1,6 +1,6 @@
 ## **Merge Sort**
 ### Descrizione:
-**Merge Sort** è un algoritmo di ordinamento **divide et impera**, che funziona suddividendo ricorsivamente l'array in due metà, ordinando ciascuna metà e quindi **unendo (merging)** le due metà ordinate. Questo algoritmo è molto efficiente e ha una complessità temporale di \(O(n  log n)\) nel caso migliore, peggiore e medio. La sua stabilità lo rende utile per ordinare strutture dati che mantengano l'ordine relativo degli elementi con lo stesso valore.
+**Merge Sort** è un algoritmo di ordinamento **divide et impera**, che funziona suddividendo ricorsivamente l'array in due metà, ordinando ciascuna metà e quindi **unendo (merging)** le due metà ordinate. Questo algoritmo è molto efficiente e ha una complessità temporale di \(O(n \log n)\) nel caso migliore, peggiore e medio. La sua stabilità lo rende utile per ordinare strutture dati che mantengano l'ordine relativo degli elementi con lo stesso valore.
 
 ---
 
@@ -25,82 +25,42 @@
 
 ---
 
-### **Codice in C++**:
+### **Pseudocodice (Stile Cormen)**:
+*Nota: Lo stile Cormen (CLRS) utilizza valori "sentinella" (∞) per semplificare il codice, evitando controlli sui limiti degli array temporanei.*
 
 ```cpp
-#include <iostream>
-using namespace std;
+// Unisce due sotto-array A[p..q] e A[q+1..r]
+MERGE(A, p, q, r)
+    n1 <- q - p + 1
+    n2 <- r - q
+    // Crea array L[1..n1+1] e R[1..n2+1]
+    let L e R be new arrays
 
-// Funzione per unire due sotto-array ordinati
-void merge(int arr[], int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+    for i <- 1 to n1
+        L[i] <- A[p + i - 1]
+    for j <- 1 to n2
+        R[j] <- A[q + j]
 
-    // Crea array temporanei per le due metà
-    int L[n1], R[n2];
+    L[n1 + 1] <- ∞  // Valore sentinella
+    R[n2 + 1] <- ∞  // Valore sentinella
 
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
-        R[j] = arr[mid + 1 + j];
+    i <- 1
+    j <- 1
+    for k <- p to r
+        if L[i] <= R[j]
+            A[k] <- L[i]
+            i <- i + 1
+        else
+            A[k] <- R[j]
+            j <- j + 1
 
-    // Unisci i due sotto-array temporanei
-    int i = 0, j = 0, k = left;
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            arr[k] = L[i];
-            i++;
-        } else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    // Copia gli elementi rimanenti
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
-}
-
-// Funzione ricorsiva Merge Sort
-void mergeSort(int arr[], int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2;  // Trova il punto medio
-
-        // Ordina ricorsivamente la prima metà e la seconda metà
-        mergeSort(arr, left, mid);
-        mergeSort(arr, mid + 1, right);
-
-        // Unisci le due metà ordinate
-        merge(arr, left, mid, right);
-    }
-}
-
-// Funzione principale per testare Merge Sort
-int main() {
-    int arr[] = {12, 11, 13, 5, 6, 7};
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    cout << "Array originale: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
-    cout << endl;
-
-    mergeSort(arr, 0, n - 1);
-
-    cout << "Array ordinato: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
-    cout << endl;
-
-    return 0;
-}
+// Funzione principale ricorsiva
+MERGE-SORT(A, p, r)
+    if p < r
+        q <- floor((p + r) / 2) // Trova il punto medio
+        MERGE-SORT(A, p, q)
+        MERGE-SORT(A, q + 1, r)
+        MERGE(A, p, q, r)
 ```
 
 ---
@@ -122,9 +82,9 @@ Supponiamo di ordinare `{12, 11, 13, 5, 6, 7}` con Merge Sort:
 
 ### **Analisi dell'algoritmo**:
 1. **Complessità temporale**:
-   - **Caso migliore**: \(O(n  log n)\), quando l'array è già diviso in due metà equilibrate.
-   - **Caso peggiore**: \(O(n  log n)\), anche quando l'array è invertito, perché ogni divisione è sempre bilanciata.
-   - **Caso medio**: \(O(n  log n)\), che si verifica in generale.
+   - **Caso migliore**: \(O(n \log n)\), quando l'array è già diviso in due metà equilibrate.
+   - **Caso peggiore**: \(O(n \log n)\), anche quando l'array è invertito, perché ogni divisione è sempre bilanciata.
+   - **Caso medio**: \(O(n \log n)\), che si verifica in generale.
 
 2. **Complessità spaziale**:
    - \(O(n)\), a causa degli array ausiliari utilizzati durante la fase di unione.
@@ -140,7 +100,7 @@ Supponiamo di ordinare `{12, 11, 13, 5, 6, 7}` con Merge Sort:
 ### **Confronto con altri algoritmi**:
 | **Caratteristica**      | **Merge Sort**            | **Quick Sort**           | **Insertion Sort**    |
 |--------------------------|---------------------------|--------------------------|-----------------------|
-| **Caso Migliore**         | \(O(n  log n)\)           | \(O(n  log n)\)          | \(O(n)\)              |
-| **Caso Peggiore**         | \(O(n  log n)\)           | \(O(n^2)\)               | \(O(n^2)\)            |
-| **Spazio Aggiuntivo**     | \(O(n)\)                  | \(O( log n)\)            | \(O(1)\)              |
+| **Caso Migliore**         | \(O(n \log n)\)           | \(O(n \log n)\)          | \(O(n)\)              |
+| **Caso Peggiore**         | \(O(n \log n)\)           | \(O(n^2)\)               | \(O(n^2)\)            |
+| **Spazio Aggiuntivo**     | \(O(n)\)                  | \(O(\log n)\)            | \(O(1)\)              |
 | **Stabilità**             | Sì                        | No                       | Sì                    |
