@@ -29,8 +29,8 @@
 ### **Pseudocodice (Schema di Partizionamento Cormen)**:
 Questo è lo schema più comune usata anche nel Cormen. Garantisce che il pivot si trovi nella sua posizione finale dopo ogni partizionamento.
 
-```
-// Funzione per partizionare l'array (Lomuto)
+```cpp
+// Funzione per partizionare l'array (Cormen)
 PARTITION(A, p, r)
     x <- A[r]         // Il pivot è l'ultimo elemento
     i <- p - 1
@@ -54,7 +54,7 @@ QUICKSORT(A, p, r)
 ### **Pseudocodice (Schema di Partizionamento di Hoare)**:
 Questo è lo schema originale proposto da C.A.R. Hoare. È generalmente più veloce di quello di Lomuto perché esegue meno scambi in media. A differenza di Lomuto, **non** garantisce che l'elemento pivot sia nella sua posizione finale, ma restituisce un indice che divide l'array in due partizioni.
 
-```
+```cpp
 // Funzione per partizionare l'array (Hoare)
 HOARE-PARTITION(A, p, r)
     x <- A[p]  // Il pivot è il primo elemento
