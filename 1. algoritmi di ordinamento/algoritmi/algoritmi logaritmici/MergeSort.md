@@ -33,19 +33,15 @@
 MERGE(A, p, q, r)
     n1 <- q - p + 1
     n2 <- r - q
-    // Crea array L[1..n1+1] e R[1..n2+1]
-    let L e R be new arrays
 
-    for i <- 1 to n1
         L[i] <- A[p + i - 1]
     for j <- 1 to n2
         R[j] <- A[q + j]
 
-    L[n1 + 1] <- ∞  // Valore sentinella
-    R[n2 + 1] <- ∞  // Valore sentinella
+    L[n1 + 1] <- R[n2 + 1] <- ∞  // Valore sentinella
 
-    i <- 1
-    j <- 1
+    i <- j <- 1
+
     for k <- p to r
         if L[i] <= R[j]
             A[k] <- L[i]
@@ -55,11 +51,11 @@ MERGE(A, p, q, r)
             j <- j + 1
 
 // Funzione principale ricorsiva
-MERGE-SORT(A, p, r)
-    if p < r
-        q <- [(p + r) / 2] // Trova il punto medio
-        MERGE-SORT(A, p, q)
-        MERGE-SORT(A, q + 1, r)
+MERGE-SORT(A, p, q)
+    if p < q
+        r <- [(p + q) / 2] // Trova il punto medio
+        MERGE-SORT(A, p, r)
+        MERGE-SORT(A, r + 1, q)
         MERGE(A, p, q, r)
 ```
 
