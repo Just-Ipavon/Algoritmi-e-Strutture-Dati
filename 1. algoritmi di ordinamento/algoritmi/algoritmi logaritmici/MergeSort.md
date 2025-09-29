@@ -26,7 +26,7 @@
 ---
 
 ### **Pseudocodice (Stile Cormen)**:
-*Nota: Lo stile Cormen (CLRS) utilizza valori "sentinella" (∞) per semplificare il codice, evitando controlli sui limiti degli array temporanei.*
+*Nota: Il Cormen utilizza valori "sentinella" (∞) per semplificare il codice, evitando controlli sui limiti degli array temporanei.*
 
 ```cpp
 // Unisce due sotto-array A[p..q] e A[q+1..r]
