@@ -100,7 +100,7 @@ Supponiamo di ordinare `{12, 11, 13, 5, 6, 7}` con Merge Sort:
 ### **Confronto con altri algoritmi**:
 | **Caratteristica**      | **Merge Sort**            | **Quick Sort**           | **Insertion Sort**    |
 |--------------------------|---------------------------|--------------------------|-----------------------|
-| **Caso Migliore**         | \(O(n \log n)\)           | \(O(n \log n)\)          | \(O(n)\)              |
-| **Caso Peggiore**         | \(O(n \log n)\)           | \(O(n^2)\)               | \(O(n^2)\)            |
+| **Caso Migliore**         | \(O(n log n)\)           | \(O(n log n)\)          | \(O(n)\)              |
+| **Caso Peggiore**         | \(O(n log n)\)           | \(O(n^2)\)               | \(O(n^2)\)            |
 | **Spazio Aggiuntivo**     | \(O(n)\)                  | \(O(\log n)\)            | \(O(1)\)              |
 | **Stabilità**             | Sì                        | No                       | Sì                    |
