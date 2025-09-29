@@ -82,9 +82,9 @@ Supponiamo di ordinare `{12, 11, 13, 5, 6, 7}` con Merge Sort:
 
 ### **Analisi dell'algoritmo**:
 1. **Complessità temporale**:
-   - **Caso migliore**: \(O(n \log n)\), quando l'array è già diviso in due metà equilibrate.
-   - **Caso peggiore**: \(O(n \log n)\), anche quando l'array è invertito, perché ogni divisione è sempre bilanciata.
-   - **Caso medio**: \(O(n \log n)\), che si verifica in generale.
+   - **Caso migliore**: \(O(n log n)\), quando l'array è già diviso in due metà equilibrate.
+   - **Caso peggiore**: \(O(n log n)\), anche quando l'array è invertito, perché ogni divisione è sempre bilanciata.
+   - **Caso medio**: \(O(n log n)\), che si verifica in generale.
 
 2. **Complessità spaziale**:
    - \(O(n)\), a causa degli array ausiliari utilizzati durante la fase di unione.
@@ -102,5 +102,5 @@ Supponiamo di ordinare `{12, 11, 13, 5, 6, 7}` con Merge Sort:
 |--------------------------|---------------------------|--------------------------|-----------------------|
 | **Caso Migliore**         | \(O(n log n)\)           | \(O(n log n)\)          | \(O(n)\)              |
 | **Caso Peggiore**         | \(O(n log n)\)           | \(O(n^2)\)               | \(O(n^2)\)            |
-| **Spazio Aggiuntivo**     | \(O(n)\)                  | \(O(\log n)\)            | \(O(1)\)              |
+| **Spazio Aggiuntivo**     | \(O(n)\)                  | \(O(log n)\)            | \(O(1)\)              |
 | **Stabilità**             | Sì                        | No                       | Sì                    |
