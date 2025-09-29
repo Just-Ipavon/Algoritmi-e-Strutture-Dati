@@ -34,7 +34,7 @@ MERGE(A, p, q, r)
     n1 <- q - p + 1
     n2 <- r - q
 
-   for j <- 1 to n1
+   for i <- 1 to n1
         L[i] <- A[p + i - 1]
     for j <- 1 to n2
         R[j] <- A[q + j]
