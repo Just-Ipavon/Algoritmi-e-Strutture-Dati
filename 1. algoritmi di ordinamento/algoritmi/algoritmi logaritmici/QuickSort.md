@@ -8,81 +8,85 @@
 ---
 
 ### **Invariante di ciclo**:
-> Al termine di ogni passaggio di partizionamento, il pivot è nella sua posizione corretta nell'array ordinato, e tutti gli elementi a sinistra sono minori o uguali, mentre quelli a destra sono maggiori.
+> Al termine di ogni passaggio di partizionamento, il pivot è nella sua posizione corretta nell'array ordinato (schema di Lomuto), o l'array è partizionato in modo tale che tutti gli elementi a sinistra dell'indice di divisione sono minori o uguali a tutti gli elementi a destra (schema di Hoare).
 
 ---
 
 ### **Passi Fondamentali**:
 1. **Inizializzazione**:
-   - Si sceglie un pivot (generalmente il primo elemento, l'ultimo, o uno casuale).
+   - Si sceglie un pivot.
    - L'invariante è vera perché il pivot non ha ancora partizionato l'array.
 
 2. **Conservazione**:
    - Durante il partizionamento, si riorganizzano gli elementi rispetto al pivot.
-   - L'invariante è preservata perché il pivot viene collocato correttamente.
+   - L'invariante è preservata perché gli elementi vengono scambiati per soddisfare la condizione.
 
 3. **Conclusione**:
    - Alla fine, l'array è ordinato poiché tutti i sotto-array sono stati processati ricorsivamente.
 
 ---
 
-### **Codice in C++**:
-Ecco l'implementazione completa di Quick Sort con una funzione di partizionamento.
+### **Pseudocodice (Schema di Partizionamento Cormen)**:
+Questo è lo schema più comune usata anche nel Cormen. Garantisce che il pivot si trovi nella sua posizione finale dopo ogni partizionamento.
 
-```cpp
-#include <iostream>
-using namespace std;
-
-// Funzione per partizionare l'array
-int partizione(int arr[], int low, int high) {
-    int pivot = arr[high]; // Pivot scelto come ultimo elemento
-    int i = low - 1;       // Indice per gli elementi più piccoli
-
-    for (int j = low; j < high; j++) {
-        if (arr[j] <= pivot) {
-            i++; // Incrementa l'indice degli elementi più piccoli
-            swap(arr[i], arr[j]);
-        }
-    }
-    // Posiziona il pivot nella sua posizione corretta
-    swap(arr[i + 1], arr[high]);
-    return i + 1;
-}
+```
+// Funzione per partizionare l'array (Lomuto)
+PARTITION(A, p, r)
+    x <- A[r]         // Il pivot è l'ultimo elemento
+    i <- p - 1
+    for j <- p to r - 1
+        if A[j] <= x
+            i <- i + 1
+            exchange A[i] with A[j]
+    exchange A[i + 1] with A[r]
+    return i + 1
 
 // Funzione ricorsiva Quick Sort
-void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        // Partizione: ottieni l'indice del pivot
-        int pi = partizione(arr, low, high);
-
-        // Ordina ricorsivamente le sottosezioni
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
-    }
-}
-
-// Funzione principale per testare Quick Sort
-int main() {
-    int arr[] = {10, 80, 30, 90, 40, 50, 70};
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    cout << "Array originale: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
-    cout << endl;
-
-    quickSort(arr, 0, n - 1);
-
-    cout << "Array ordinato: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
-    cout << endl;
-
-    return 0;
-}
+QUICKSORT(A, p, r)
+    if p < r
+        q <- PARTITION(A, p, r) // Indice del pivot
+        QUICKSORT(A, p, q - 1)
+        QUICKSORT(A, q + 1, r)
 ```
 
 ---
 
-### **Esempio di Esecuzione**:
+### **Pseudocodice (Schema di Partizionamento di Hoare)**:
+Questo è lo schema originale proposto da C.A.R. Hoare. È generalmente più veloce di quello di Lomuto perché esegue meno scambi in media. A differenza di Lomuto, **non** garantisce che l'elemento pivot sia nella sua posizione finale, ma restituisce un indice che divide l'array in due partizioni.
+
+```
+// Funzione per partizionare l'array (Hoare)
+HOARE-PARTITION(A, p, r)
+    x <- A[p]  // Il pivot è il primo elemento
+    i <- p - 1
+    j <- r + 1
+    while TRUE
+        repeat
+            j <- j - 1
+        until A[j] <= x
+        
+        repeat
+            i <- i + 1
+        until A[i] >= x
+        
+        if i < j
+            exchange A[i] with A[j]
+        else
+            return j
+
+// Funzione ricorsiva Quick Sort con partizionamento di Hoare
+QUICKSORT-HOARE(A, p, r)
+    if p < r
+        q <- HOARE-PARTITION(A, p, r)
+        // Le chiamate ricorsive includono l'indice di partizione
+        QUICKSORT-HOARE(A, p, q)
+        QUICKSORT-HOARE(A, q + 1, r)
+
+```
+
+---
+
+### **Esempio di Esecuzione (Schema Cormen)**:
 Supponiamo di ordinare `{10, 80, 30, 90, 40, 50, 70}`:
 1. **Primo passaggio**:
    - Pivot: \(70\).
@@ -96,28 +100,26 @@ Supponiamo di ordinare `{10, 80, 30, 90, 40, 50, 70}`:
 
 ### **Analisi dell'algoritmo**:
 1. **Complessità temporale**:
-   - Caso migliore: \(O(n  log n)\), quando il pivot divide l'array in parti uguali.
+   - Caso migliore: \(O(n log n)\), quando il pivot divide l'array in parti uguali.
    - Caso peggiore: \(O(n^2)\), quando il pivot è il minimo o massimo elemento (divisione sbilanciata).
-   - Caso medio: \(O(n  log n)\).
+   - Caso medio: \(O(n log n)\).
 
 2. **Complessità spaziale**:
-   - \(O( log n)\): per lo stack ricorsivo (nella versione in-place).
+   - \(O(log n)\): per lo stack ricorsivo (nella versione in-place).
    - Non richiede array ausiliari.
 
 ---
 
 ### **Punti chiave sull'invariante**:
-1. Dopo ogni partizionamento, il pivot è nella posizione corretta.
-2. Gli elementi a sinistra sono sempre minori o uguali al pivot, quelli a destra sempre maggiori.
+1. Dopo ogni partizionamento, l'array è diviso in due sezioni rispetto a un punto.
+2. Gli elementi a sinistra sono sempre minori o uguali a quelli a destra.
 
 ---
 
 ### **Confronto con altri algoritmi**:
 | **Caratteristica**      | **Quick Sort**          | **Merge Sort**         | **Insertion Sort**    |
 |--------------------------|-------------------------|-------------------------|-----------------------|
-| **Caso Migliore**         | \(O(n  log n)\)        | \(O(n  log n)\)        | \(O(n)\)             |
-| **Caso Peggiore**         | \(O(n^2)\)             | \(O(n  log n)\)        | \(O(n^2)\)           |
-| **Spazio Aggiuntivo**     | \(O( log n)\)          | \(O(n)\)               | \(O(1)\)             |
+| **Caso Migliore**         | \(O(n \log n)\)        | \(O(n \log n)\)        | \(O(n)\)             |
+| **Caso Peggiore**         | \(O(n^2)\)             | \(O(n \log n)\)        | \(O(n^2)\)           |
+| **Spazio Aggiuntivo**     | \(O(\log n)\)          | \(O(n)\)               | \(O(1)\)             |
 | **Stabilità**             | No                     | Sì                     | Sì                   |
-
----
