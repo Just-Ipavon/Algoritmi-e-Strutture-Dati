@@ -57,7 +57,7 @@ MERGE(A, p, q, r)
 // Funzione principale ricorsiva
 MERGE-SORT(A, p, r)
     if p < r
-        q <- floor((p + r) / 2) // Trova il punto medio
+        q <- [(p + r) / 2] // Trova il punto medio
         MERGE-SORT(A, p, q)
         MERGE-SORT(A, q + 1, r)
         MERGE(A, p, q, r)
