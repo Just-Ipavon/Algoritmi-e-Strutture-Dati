@@ -34,7 +34,7 @@
 - [Kruskal](<../05. MST/algoritmi/Kruskal.md>)
 - [Prim](<../05. MST/algoritmi/Prim.md>)
 
-## [Complessità e Teoria](https://github.com/Just-Ipavon/Algoritmi-e-Strutture-Dati/tree/main/09.%20P-NP)
+## [Teoria](https://github.com/Just-Ipavon/Algoritmi-e-Strutture-Dati/tree/main/09.%20P-NP)
 - P, NP, NPC
 - Dimostrazioni
 - Funzione di Ackermann
@@ -52,4 +52,5 @@
 ## [Notazioni Asintotiche](<../00. Notazioni Asintotiche/NotazioniAsintotiche.md>)
 - O (Big O)
 - Ω (Big Omega)
+
 - Θ (Big Theta)
