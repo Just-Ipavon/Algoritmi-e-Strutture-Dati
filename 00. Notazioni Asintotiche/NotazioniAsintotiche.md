@@ -1,7 +1,3 @@
-Certamente. Ho aggiornato il file Markdown inserendo i link alle immagini che hai fornito nei rispettivi spazi.
-
----
-
 ## **Notazioni Asintotiche (O, Ω, Θ)**
 ### Descrizione:
 - Le notazioni asintotiche sono un linguaggio matematico usato per descrivere l'**efficienza** di un algoritmo in termini di come il suo tempo di esecuzione o il suo utilizzo di memoria crescono all'aumentare della dimensione dell'input (`n`).
@@ -102,4 +98,5 @@ In parole semplici: da un certo punto `n₀` in poi, la funzione `f(n)` è "stre
 | **Analogia**             | Limite Superiore (Upper Bound) | Limite Inferiore (Lower Bound) | Limite Stretto (Tight Bound) |
 | **Significato**          | "Non cresce più velocemente di..." | "Non cresce più lentamente di..." | "Cresce esattamente come..." |
 | **Utilizzo Tipico**      | Analisi del **caso peggiore** | Analisi del **caso migliore** | Analisi precisa del comportamento |
+
 | **Esempio**              | Quicksort è `O(n²)`         | Quicksort è `Ω(n log n)`  | Merge Sort è `Θ(n log n)` |
