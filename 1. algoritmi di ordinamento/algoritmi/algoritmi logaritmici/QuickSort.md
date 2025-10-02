@@ -8,7 +8,7 @@
 ---
 
 ### **Invariante di ciclo**:
-> Al termine di ogni passaggio di partizionamento, il pivot è nella sua posizione corretta nell'array ordinato (schema di Lomuto), o l'array è partizionato in modo tale che tutti gli elementi a sinistra dell'indice di divisione sono minori o uguali a tutti gli elementi a destra (schema di Hoare).
+> Al termine di ogni passaggio di partizionamento, il pivot è nella sua posizione corretta nell'array ordinato (schema Cormen), o l'array è partizionato in modo tale che tutti gli elementi a sinistra dell'indice di divisione sono minori o uguali a tutti gli elementi a destra (schema di Hoare).
 
 ---
 
@@ -27,7 +27,7 @@
 ---
 
 ### **Pseudocodice (Schema di Partizionamento Cormen)**:
-Questo è lo schema più comune usata anche nel Cormen. Garantisce che il pivot si trovi nella sua posizione finale dopo ogni partizionamento.
+Questo è lo schema più comune usato anche nel Cormen. Garantisce che il pivot si trovi nella sua posizione finale dopo ogni partizionamento.
 
 ```cpp
 // Funzione per partizionare l'array (Cormen)
