@@ -28,62 +28,33 @@ Il Randomized Quick Sort funziona in modo simile al Quick Sort tradizionale:
 
 ---
 
-### **Codice in C++**:
+### **Pseudocodice Cormen**:
 
 ```cpp
-#include <iostream>
-#include <cstdlib>  // per rand() e srand()
-#include <ctime>    // per time()
-using namespace std;
 
-// Funzione per partizionare l'array
-int partizione(int arr[], int low, int high) {
-    int pivotIndex = low + rand() % (high - low + 1);  // Scegli un indice casuale per il pivot
-    swap(arr[pivotIndex], arr[high]);  // Porta il pivot casuale alla fine
-    int pivot = arr[high];  // Pivot scelto come ultimo elemento
-    int i = low - 1;        // Indice per gli elementi più piccoli
+RANDOMIZEDPARTITION(A, p, r)
+   i <- Random(p,r)
+   exchange A[i] with A[p]
+   Partition(A,p.r)
 
-    for (int j = low; j < high; j++) {
-        if (arr[j] <= pivot) {
-            i++;  // Incrementa l'indice degli elementi più piccoli
-            swap(arr[i], arr[j]);
-        }
-    }
-    // Posiziona il pivot nella sua posizione corretta
-    swap(arr[i + 1], arr[high]);
-    return i + 1;
-}
 
-// Funzione ricorsiva Randomized Quick Sort
-void randomizedQuickSort(int arr[], int low, int high) {
-    if (low < high) {
-        // Partizione: ottieni l'indice del pivot
-        int pi = partizione(arr, low, high);
+// Funzione per partizionare l'array (Cormen)
+PARTITION(A, p, r)
+    x <- A[r]         
+    i <- p - 1
+    for j <- p to r - 1
+        if A[j] <= x
+            i <- i + 1
+            exchange A[i] with A[j]
+    exchange A[i + 1] with A[r]
+    return i + 1
 
-        // Ordina ricorsivamente le sottosezioni
-        randomizedQuickSort(arr, low, pi - 1);
-        randomizedQuickSort(arr, pi + 1, high);
-    }
-}
-
-// Funzione principale per testare Randomized Quick Sort
-int main() {
-    srand(time(0));  // Inizializza il generatore di numeri casuali
-    int arr[] = {10, 80, 30, 90, 40, 50, 70};
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    cout << "Array originale: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
-    cout << endl;
-
-    randomizedQuickSort(arr, 0, n - 1);
-
-    cout << "Array ordinato: ";
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
-    cout << endl;
-
-    return 0;
-}
+// Funzione ricorsiva Quick Sort
+RANDOMIZEDQUICKSORT(A, p, r)
+    if p < r
+        q <- RANDOMIZEDPARTITION(A, p, r) // Indice del pivot
+        RANDOMIZEDQUICKSORT(A, p, q )
+        RANDOMIZEDQUICKSORT(A, q + 1, r)
 ```
 
 ---
