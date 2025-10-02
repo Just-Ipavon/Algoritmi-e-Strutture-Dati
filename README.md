@@ -9,11 +9,12 @@ Benvenuto nella repository del corso di **Algoritmi e Strutture Dati** dell'Univ
 Il corso teorico esplora i concetti fondamentali degli algoritmi e delle strutture dati. Gli argomenti trattati includono:
 
 ### **Complessi Temporale e Spaziale**
-- **Notazioni Asintotiche**:
+ **[Notazioni Asintotiche](<00. Notazioni Asintotiche>)**:
   - Big-O (O): Notazione che descrive il comportamento asintotico di un algoritmo nel caso peggiore.
   - Omega (Ω): Notazione che descrive il comportamento asintotico nel caso migliore.
   - Theta (Θ): Notazione che descrive il comportamento asintotico nel caso medio.
-- **Analisi degli algoritmi**: Tecniche per analizzare e classificare l'efficienza di un algoritmo in termini di tempo e spazio.
+
+ **Analisi degli algoritmi**: Tecniche per analizzare e classificare l'efficienza di un algoritmo in termini di tempo e spazio.
 
 ### **Algoritmi di Base**
 - **Ricerca**:
@@ -76,4 +77,4 @@ La parte pratica del corso si concentra sull'implementazione e la testatura degl
 
 ---
 
-Grazie per aver visitato la repository! Buono studio! 😊
+Grazie per aver visitato la repository! per informazioni sull'esame e sulle varie prove visitare la sezione [Extra](<EXTRA. Informazioni ed esrcizi per esami>).
