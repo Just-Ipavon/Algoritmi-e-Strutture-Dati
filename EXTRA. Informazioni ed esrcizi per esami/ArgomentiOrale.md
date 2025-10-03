@@ -8,8 +8,8 @@
 - [Hybrid Sort](<../01. algoritmi di ordinamento/algoritmi/algoritmi logaritmici/HybridSort.md>)
 
 ## Strutture Dati
-- [BST (Alberi Binari di Ricerca)](https://github.com/Just-Ipavon/Algoritmi-e-Strutture-Dati/tree/main/07.%20alberi)
-- [RB-Tree (Alberi Rosso-Neri)](https://github.com/Just-Ipavon/Algoritmi-e-Strutture-Dati/tree/main/07.%20alberi)
+- [BST (Alberi Binari di Ricerca)](<../07. alberi/algortmi/AlberiRicercaBinaria.md>)
+- [RB-Tree (Alberi Rosso-Neri)](<../07. alberi/algortmi/AlberiRB.md>)
 - [indirizzamento aperto](https://github.com/Just-Ipavon/Algoritmi-e-Strutture-Dati/tree/main/06.%20hashing%20tables)
 - [Hash con concatenamento](https://github.com/Just-Ipavon/Algoritmi-e-Strutture-Dati/tree/main/06.%20hashing%20tables)
 
