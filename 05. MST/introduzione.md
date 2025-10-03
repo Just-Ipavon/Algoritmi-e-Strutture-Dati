@@ -15,7 +15,7 @@ Esistono diversi algoritmi per risolvere il problema del Minimum Spanning Tree. 
 1. **Kruskal’s Algorithm**
 2. **Prim’s Algorithm**
 
-## 1. Kruskal's Algorithm
+## 1. [Kruskal's Algorithm](algoritmi/Kruskal.md)
 
 L'algoritmo di **Kruskal** è un algoritmo greedy che costruisce l'MST selezionando gli archi in ordine crescente di peso, garantendo che non venga mai creato un ciclo.
 
@@ -27,7 +27,7 @@ L'algoritmo di **Kruskal** è un algoritmo greedy che costruisce l'MST seleziona
 
 ### Pseudocodice di Kruskal:
 
-```text
+```cpp
 function Kruskal(grafo):
     ordinare gli archi di grafo in ordine crescente di peso
     MST = insieme vuoto
@@ -48,7 +48,7 @@ function Kruskal(grafo):
 ### Esempio:
 Immagina un grafo con 5 nodi e 7 archi con pesi associati. L'algoritmo di Kruskal ordinerà gli archi in base al peso, selezionerà i più piccoli evitando i cicli, fino a completare l'MST.
 
-## 2. Prim's Algorithm
+## 2. [Prim's Algorithm](algoritmi/Prim.md)
 
 L'algoritmo di **Prim** è un altro algoritmo greedy che, a partire da un nodo arbitrario, costruisce l'MST espandendo l'albero selezionando gli archi di peso minimo che collegano un nodo dell'albero a un nodo esterno.
 
@@ -60,7 +60,7 @@ L'algoritmo di **Prim** è un altro algoritmo greedy che, a partire da un nodo a
 
 ### Pseudocodice di Prim:
 
-```text
+```cpp
 function Prim(grafo, nodo_iniziale):
     MST = insieme vuoto
     chiave[nodo_iniziale] = 0
