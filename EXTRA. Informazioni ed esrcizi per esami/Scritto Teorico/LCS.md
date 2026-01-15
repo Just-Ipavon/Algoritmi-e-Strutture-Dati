@@ -21,6 +21,35 @@ Date due sequenze (stringhe) `X` e `Y` di lunghezze `m` e `n` rispettivamente:
 La lunghezza finale della LCS tra `X` e `Y` sarà `c[m,n]`. La sottosequenza effettiva viene ricostruita seguendo le direzioni memorizzate nella tabella `b` a partire da `b[m,n]`.
 
 ---
+## Pseudocodice Memoization
+
+```c
+ALGORITMO LCS_Recursive(X, Y, i, j, memo):
+    // CASO BASE: Se uno degli indici è minore di 0, una stringa è finita
+    SE i < 0 OPPURE j < 0 ALLORA:
+        RITORNA 0
+
+    // MEMOIZATION CHECK: Se il valore è già stato calcolato, restituiscilo
+    SE memo[i][j] ≠ -1 ALLORA:
+        RITORNA memo[i][j]
+
+    // LOGICA RICORSIVA
+    SE X[i] == Y[j] ALLORA:
+        // I caratteri corrispondono: aggiungi 1 e spostati su entrambi
+        risultato ← 1 + LCS_Recursive(X, Y, i - 1, j - 1, memo)
+    ALTRIMENTI:
+        // I caratteri non corrispondono: prendi il massimo tra
+        // scartare un carattere da X o scartare un carattere da Y
+        risultato ← MAX(
+            LCS_Recursive(X, Y, i - 1, j, memo),
+            LCS_Recursive(X, Y, i, j - 1, memo)
+        )
+
+    // Salva il risultato nella tabella prima di ritornare
+    memo[i][j] ← risultato
+    RITORNA risultato
+
+```
 
 ## Pseudocodice (Stile Cormen)
 
