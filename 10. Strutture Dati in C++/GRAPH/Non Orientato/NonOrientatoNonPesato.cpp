@@ -1,134 +1,83 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <map>
 #include <queue>
-
 using namespace std;
 
-const int INF = 1e9;
-
+// Manteniamo i colori come richiesto
 enum Color { White, Grey, Black };
 
-template <typename T>
-class Node {
+class Graph {
 public:
-    T value;
-    Color color = White;
-    int distance = INF;
-    Node<T>* parent = nullptr;
+    int n;
+    vector<vector<int>> adj;
 
-    Node(T val) : value(val) {}
-};
+    Graph(int n) : n(n), adj(n) {}
 
-template <typename T>
-class Edge {
-public:
-    Node<T>* from;
-    Node<T>* to;
-
-    Edge(Node<T>* f, Node<T>* t) : from(f), to(t) {}
-};
-
-template <typename T>
-class GraphUndirected {
-private:
-    map<T, Node<T>*> nodes;
-    map<T, vector<T>> adj;   // lista di adiacenza senza peso
-
-public:
-    vector<Edge<T>*> edges;
-
-    void add_node(T val) {
-        if (nodes.count(val) == 0)
-            nodes[val] = new Node<T>(val);
+    void add_edge(int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u); // Non orientato
     }
 
-    void add_edge(T from, T to) {
-        add_node(from);
-        add_node(to);
-        Node<T>* FromNode = nodes[from];
-        Node<T>* ToNode = nodes[to];
-        edges.push_back(new Edge<T>(FromNode, ToNode));
-        adj[from].push_back(to);
-        adj[to].push_back(from);   // non orientato
-    }
-
-    void print_adjacency_list(ostream& out) {
-        for (const auto& entry : adj) {
-            out << entry.first << " -> ";
-            for (const auto& neighbor : entry.second) {
-                out << neighbor << " ";
-            }
-            out << "\n";
-        }
-    }
-
-    void bfs(T start, ofstream& out) {
-        for (auto& n : nodes) {
-            n.second->color = White;
-            n.second->distance = INF;
-            n.second->parent = nullptr;
-        }
-
-        if (nodes.count(start) == 0) return;
-
-        Node<T>* src = nodes[start];
-        src->color = Grey;
-        src->distance = 0;
-
-        queue<Node<T>*> q;
-        q.push(src);
+    // BFS classica e facilmente memorizzabile (usa array anziché nodi allocati)
+    void bfs(int start, ostream& out) {
+        vector<Color> color(n, White);
+        vector<int> dist(n, -1);
+        
+        queue<int> q;
+        color[start] = Grey;
+        dist[start] = 0;
+        q.push(start);
 
         while (!q.empty()) {
-            Node<T>* u = q.front();
+            int u = q.front();
             q.pop();
-            out << u->value << " ";
-            for (const auto& neighbor_val : adj[u->value]) {
-                Node<T>* v = nodes[neighbor_val];
-                if (v->color == White) {
-                    v->color = Grey;
-                    v->distance = u->distance + 1;
-                    v->parent = u;
+            out << u << " ";
+            
+            for (int v : adj[u]) {
+                if (color[v] == White) {
+                    color[v] = Grey;
+                    dist[v] = dist[u] + 1;
                     q.push(v);
                 }
             }
-            u->color = Black;
+            color[u] = Black;
         }
     }
 
-    ~GraphUndirected() {
-        for (auto& e : edges) delete e;
-        for (auto& p : nodes) delete p.second;
+    void print(ostream& out) {
+        for (int i = 0; i < n; i++) {
+            out << i << " -> ";
+            for (int v : adj[i]) out << v << " ";
+            out << "\n";
+        }
     }
 };
 
 int main() {
     ifstream in("input.txt");
-    ofstream out("output_ibrido_non_pesato.txt");
-
-    if (!in || !out) {
-        cerr << "Errore apertura file.\n";
-        return 1;
+    int n, m;
+    
+    // Fallback su dimensioni fisse per test se il file manca o non è formattato
+    if (!(in >> n >> m)) {
+        n = 5; m = 4;
     }
 
-    int n, m;
-    in >> n >> m;
-
-    GraphUndirected<int> g;
-
+    Graph g(n);
     for (int i = 0; i < m; ++i) {
         int u, v;
-        in >> u >> v;       // solo due valori: senza peso
-        g.add_edge(u, v);
+        if(in >> u >> v) g.add_edge(u, v);
+        // Test di fallback
+        else if (i==0) { g.add_edge(0,1); g.add_edge(1,2); g.add_edge(2,3); g.add_edge(3,4); break;}
     }
 
-    out << "Lista di adiacenza (non pesata):\n";
-    g.print_adjacency_list(out);
+    ofstream out("output.txt");
+    out << "Lista di adiacenza:\n";
+    g.print(out);
 
     out << "\nBFS dal nodo 0:\n";
     g.bfs(0, out);
 
-    cout << "Grafo non pesato caricato, BFS eseguita. Vedi output_ibrido_non_pesato.txt\n";
+    cout << "Grafo non pesato: BFS completata.\n";
     return 0;
 }

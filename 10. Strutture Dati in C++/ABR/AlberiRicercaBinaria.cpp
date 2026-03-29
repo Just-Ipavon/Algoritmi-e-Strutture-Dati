@@ -2,92 +2,78 @@
 #include <fstream>
 using namespace std;
 
-template<typename T, typename S>
-class Node {
-public:
-    T key;
-    S val;
-    Node* left;
-    Node* right;
-    Node* parent;
 
-    Node(T k, S v) : key(k), val(v), left(nullptr), right(nullptr), parent(nullptr) {}
+template<typename K, typename V>
+struct Node {
+    K key;
+    V val;
+    Node* left = nullptr;
+    Node* right = nullptr;
+    Node* parent = nullptr;
+    
+    Node(K k, V v) : key(k), val(v) {}
 };
 
-template<typename T, typename S>
+template<typename K, typename V>
 class ABR {
 public:
-    Node<T,S>* root;
+    Node<K,V>* root = nullptr;
 
-    ABR() : root(nullptr) {}
+    void insert(K key, V val) {
+        Node<K,V>* n = new Node<K,V>(key, val);
+        Node<K,V>* p = nullptr;
+        Node<K,V>* curr = root;
 
-    void insert(T key, S val) {
-        Node<T,S>* nodein = new Node<T,S>(key, val);
-        Node<T,S>* parentnode = nullptr;
-        Node<T,S>* currentnode = root;
-
-        while (currentnode) {
-            parentnode = currentnode;
-            if (key < currentnode->key) {
-                currentnode = currentnode->left;
-            } else if (key > currentnode->key) {
-                currentnode = currentnode->right;
-            } else {
-                currentnode->val = val;
-                delete nodein;
-                return;
+        // Scendi per trovare la posizione
+        while (curr) {
+            p = curr;
+            if (key < curr->key) curr = curr->left;
+            else if (key > curr->key) curr = curr->right;
+            else { 
+                curr->val = val; // Se esiste già, aggiorna il valore
+                delete n; 
+                return; 
             }
         }
-        nodein->parent = parentnode;
-        if (!parentnode) root = nodein;
-        else if (key < parentnode->key) parentnode->left = nodein;
-        else parentnode->right = nodein;
+        
+        n->parent = p;
+        if (!p) root = n; // Albero vuoto
+        else if (key < p->key) p->left = n;
+        else p->right = n;
     }
 
-    // Preorder
-    void preorder(Node<T,S>* node, ofstream& out) {
-        if (!node) return;
-        out << "chiave: " << node->key << ", valore: " << node->val << "\n";
-        preorder(node->left, out);
-        preorder(node->right, out);
+    // Ricerca iterativa: più corta e facile da memorizzare rispetto alla ricorsiva
+    Node<K,V>* search(K key) {
+        Node<K,V>* curr = root;
+        while (curr && curr->key != key) {
+            if (key < curr->key) curr = curr->left;
+            else curr = curr->right;
+        }
+        return curr;
     }
 
-    // Postorder
-    void postorder(Node<T,S>* node, ofstream& out) {
-        if (!node) return;
-        postorder(node->left, out);
-        postorder(node->right, out);
-        out << "chiave: " << node->key << ", valore: " << node->val << "\n";
+    Node<K,V>* minimum(Node<K,V>* n) {
+        while (n && n->left) n = n->left;
+        return n;
     }
 
-    // Ricerca
-    Node<T,S>* search(Node<T,S>* node, T key) {
-        if (!node || node->key == key) return node;
-        if (key < node->key) return search(node->left, key);
-        else return search(node->right, key);
-    }
-
-    // Minimo
-    Node<T,S>* minimum(Node<T,S>* node) {
-        while (node && node->left) node = node->left;
-        return node;
-    }
-
-    void transplant(Node<T,S>* u, Node<T,S>* v) {
+    // Collega il parent di 'u' a 'v' (sostituisce il sottoalbero u con v)
+    void transplant(Node<K,V>* u, Node<K,V>* v) {
         if (!u->parent) root = v;
         else if (u == u->parent->left) u->parent->left = v;
         else u->parent->right = v;
         if (v) v->parent = u->parent;
     }
 
-    void remove(T key) {
-        Node<T,S>* z = search(root, key);
+    // Cancellazione classica di CLRS: memorizzabile come 3 casi (senza diag sinistro, senza diag destro, con entrambi)
+    void remove(K key) {
+        Node<K,V>* z = search(key);
         if (!z) return;
 
-        if (!z->left) transplant(z, z->right);
-        else if (!z->right) transplant(z, z->left);
-        else {
-            Node<T,S>* y = minimum(z->right);
+        if (!z->left) transplant(z, z->right);       // Caso 1: nessun figlio sx
+        else if (!z->right) transplant(z, z->left);  // Caso 2: nessun figlio dx
+        else {                                       // Caso 3: due figli -> trova il successore
+            Node<K,V>* y = minimum(z->right);
             if (y->parent != z) {
                 transplant(y, y->right);
                 y->right = z->right;
@@ -100,35 +86,39 @@ public:
         delete z;
     }
 
+    void preorder(Node<K,V>* n, ostream& out) {
+        if (!n) return;
+        out << n->key << ":" << n->val << " ";
+        preorder(n->left, out);
+        preorder(n->right, out);
+    }
+    
+    void postorder(Node<K,V>* n, ostream& out) {
+        if (!n) return;
+        postorder(n->left, out);
+        postorder(n->right, out);
+        out << n->key << ":" << n->val << " ";
+    }
 };
 
 int main() {
     ifstream in("input.txt");
-    int key; char val;
-    ABR<int,char> tree;
-
-    while (in >> key >> val) {
-        tree.insert(key, val);
-    }
-    in.close();
-
+    ABR<int, char> tree;
+    int k; char v;
+    
+    // Non avendo "input.txt" formattato strettamente, qui si fa lettura finché c'è input valid.
+    while (in >> k >> v) tree.insert(k, v);
+    
     ofstream out("output.txt");
-    out << "Preorder:\n";
-    tree.preorder(tree.root, out);
+    out << "Preorder: "; tree.preorder(tree.root, out); out << "\n";
+    out << "Postorder: "; tree.postorder(tree.root, out); out << "\n";
 
-    out << "\nPostorder:\n";
-    tree.postorder(tree.root, out);
+    cout << "Chiave da cercare: ";
+    if (cin >> k) {
+        Node<int, char>* found = tree.search(k);
+        if (found) cout << "Trovato: " << found->val << "\n";
+        else cout << "Non trovato.\n";
+    }
 
-    cout << "Inserisci la chiave da ricercare: ";
-    int chiaveDaCercare;
-    cin >> chiaveDaCercare;
-
-    Node<int,char>* valoreTrovato = tree.search(tree.root, chiaveDaCercare);
-    if(!valoreTrovato)
-        cout << "\nNessuna chiave trovata\n";
-    else
-        cout << "La chiave ha valore: " << valoreTrovato->val << endl;
-
-    out.close();
-    cout << "File creato correttamente\n";
+    return 0;
 }

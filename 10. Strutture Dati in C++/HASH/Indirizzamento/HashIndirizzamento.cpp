@@ -1,67 +1,68 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 
-template<typename T, typename S>
-struct Oggetto {
-    T chiave;
-    S valore;
-    bool occupied;
+// Lo stato DELETED (Tombstone) permette di cancellare chiavi 
+// senza bloccare la successiva ricerca
+enum Status { EMPTY, ACTIVE, DELETED };
 
-    Oggetto() : occupied(false) {}
-    Oggetto(T k, S v) : chiave(k), valore(v), occupied(true) {}
+template<typename K, typename V>
+struct Item {
+    K key;
+    V val;
+    Status stat = EMPTY;
+    Item() {}
+    Item(K k, V v) : key(k), val(v), stat(ACTIVE) {}
 };
 
-template<typename T, typename S>
-class Hash {
+template<typename K, typename V>
+class HashOpen {
 public:
     int m;
-    Oggetto<T,S>* tabella;
+    vector<Item<K,V>> table;
 
-    Hash(int size) : m(size) {
-        tabella = new Oggetto<T,S>[m];
-    }
+    HashOpen(int size) : m(size), table(size) {}
 
-    int hash(T chiave) { return chiave % m; }
+    int hash(K key) { return key % m; }
 
-    void insert(T chiave, S valore) {
-        int idx = hash(chiave);
+    void insert(K key, V val) {
+        int idx = hash(key);
         int start = idx;
 
-        while (tabella[idx].occupied) {
-            if (tabella[idx].chiave == chiave) {
-                tabella[idx].valore = valore;
+        // Invece di fermarci solo quando è vuoto, sovrascriviamo se vuoto o cancellato.
+        while (table[idx].stat != EMPTY && table[idx].stat != DELETED) {
+            if (table[idx].key == key && table[idx].stat == ACTIVE) {
+                table[idx].val = val; // aggiornamento
                 return;
             }
             idx = (idx + 1) % m;
-            if (idx == start) {
-                cerr << "Tabella piena!\n";
-                return;
-            }
+            if (idx == start) { cerr << "Tabella piena!\n"; return; }
         }
-        tabella[idx] = Oggetto<T,S>(chiave, valore);
+        table[idx] = Item<K,V>(key, val);
     }
 
-    S* find(T chiave) {
-        int idx = hash(chiave);
+    V* find(K key) {
+        int idx = hash(key);
         int start = idx;
 
-        while (tabella[idx].occupied) {
-            if (tabella[idx].chiave == chiave) return &(tabella[idx].valore);
-            idx = (idx + 1) % m;
+        while (table[idx].stat != EMPTY) {
+            if (table[idx].stat == ACTIVE && table[idx].key == key) 
+                return &(table[idx].val);
+            idx = (idx + 1) % m; // Saltiamo i tombstone e proseguiamo la ricerca
             if (idx == start) break;
         }
         return nullptr;
     }
 
-    bool remove(T chiave) {
-        int idx = hash(chiave);
+    bool remove(K key) {
+        int idx = hash(key);
         int start = idx;
 
-        while (tabella[idx].occupied) {
-            if (tabella[idx].chiave == chiave) {
-                tabella[idx].occupied = false; 
+        while (table[idx].stat != EMPTY) {
+            if (table[idx].stat == ACTIVE && table[idx].key == key) {
+                table[idx].stat = DELETED; // Contrassegna come rimosso
                 return true;
             }
             idx = (idx + 1) % m;
@@ -70,61 +71,48 @@ public:
         return false;
     }
 
-    void stampa(ofstream& out) {
+    void print(ostream& out) {
         for (int i = 0; i < m; i++)
-            if (tabella[i].occupied)
-                out << tabella[i].chiave << " -> " << tabella[i].valore << "\n";
-    }
-
-    void leggiFile(const string& file) {
-        ifstream in(file);
-        int k;
-        string v;
-        char c;
-        while (in >> c && c == '<' && in >> k >> c && c == ',') {
-            getline(in, v, '>');
-            insert(k, v);
-        }
+            if (table[i].stat == ACTIVE)
+                out << table[i].key << " -> " << table[i].val << "\n";
     }
 };
 
+void leggiFile(HashOpen<int, string>& H, string file) {
+    ifstream in(file);
+    int k; string v; char c;
+    while (in >> c && c == '<' && in >> k >> c && c == ',') {
+        getline(in, v, '>');
+        H.insert(k, v);
+    }
+}
+
 int main() {
     int M = 999;
-    Hash<int,string> H1(M);
-
-    H1.leggiFile("input.txt");
+    HashOpen<int, string> H1(M);
+    leggiFile(H1, "input.txt");
 
     ofstream out("output.txt");
+    out << "Tabella Hash ad Indirizzamento Aperto:\n"; 
+    H1.print(out);
 
-    out << "\nTabella 1\n"; 
-    H1.stampa(out);
+    cout << "Chiave da cercare: ";
+    int k;
+    if (cin >> k) {
+        string* val = H1.find(k);
+        if (val) cout << "Trovato: " << *val << "\n";
+        else cout << "Non trovato.\n";
+    }
 
-    int chiaveDaCercare;
-    cout << "Inserisci la chiave da cercare: ";
-    cin >> chiaveDaCercare;
-
-    string* valoreTrovato = H1.find(chiaveDaCercare);
-    if (valoreTrovato)
-        cout << "Trovato! La chiave " << chiaveDaCercare << " ha valore: " << *valoreTrovato << "\n";
-    else
-        cout << "La chiave " << chiaveDaCercare << " non e' stata trovata nella tabella.\n";
-
-    // PROVA DELETE
-    int chiaveDaEliminare;
-    cout << "Inserisci la chiave da eliminare: ";
-    cin >> chiaveDaEliminare;
-
-    if (H1.remove(chiaveDaEliminare))
-        cout << "Chiave " << chiaveDaEliminare << " eliminata con successo!\n";
-    else
-        cout << "Chiave " << chiaveDaEliminare << " non trovata.\n";
-
-    // Verifica dopo la cancellazione
-    valoreTrovato = H1.find(chiaveDaEliminare);
-    if (valoreTrovato)
-        cout << "ATTENZIONE: La chiave " << chiaveDaEliminare << " è ancora presente.\n";
-    else
-        cout << "Conferma: La chiave " << chiaveDaEliminare << " non è più nella tabella.\n";
+    cout << "Chiave da eliminare: ";
+    if (cin >> k) {
+        if (H1.remove(k)) cout << "Eliminata con successo.\n";
+        else cout << "Non trovata.\n";
+        
+        // La prova del 9 del tombstone
+        if (H1.find(k)) cout << "ERRORE: La chiave e' ancora presente.\n";
+        else cout << "OK: La chiave non si trova piu' con find().\n";
+    }
 
     return 0;
 }

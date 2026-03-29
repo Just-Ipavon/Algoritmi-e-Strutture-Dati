@@ -2,115 +2,87 @@
 #include <fstream>
 #include <vector>
 #include <list>
+#include <string>
 using namespace std;
 
-
-template<typename T,typename S>
-class Oggetto{
+template<typename K, typename V>
+class HashList {
 public:
-    T chiave;
-    S valore;
-
-    Oggetto(T chiave,S valore) : chiave(chiave), valore(valore) {}
-};
-
-template<typename T, typename S>
-class Hash{
-public:
-    vector<list<Oggetto<T,S>>> tabella;
     int m;
+    vector<list<pair<K, V>>> table;
 
-    Hash(int m) : m(m){
-        tabella.resize(m);
-    }
+    HashList(int size) : m(size), table(size) {}
 
-    int hash(T chiave){
-        return chiave % m;
-    }
+    int hash(K key) { return key % m; }
 
-    void insert(T chiave, S valore){
-        int idx = hash(chiave);
-        for(auto& i : tabella[idx]){
-            if(i.chiave == chiave){
-                i.valore = valore;
+    void insert(K key, V val) {
+        int idx = hash(key);
+        for (auto& item : table[idx]) {
+            if (item.first == key) {
+                item.second = val; // aggiorna e fine
                 return;
             }
         }
-        tabella[idx].push_back(Oggetto<T,S>(chiave,valore));
+        table[idx].push_back({key, val});
     }
 
-    bool contiene(T chiave){
-        int idx = chiave % m;
-        for(auto& i : tabella[idx])
-            if(i.chiave == chiave) return true;
+    bool contains(K key) {
+        int idx = hash(key);
+        for (auto& item : table[idx])
+            if (item.first == key) return true;
         return false;
     }
 
-
-    void stampa(ofstream& out){
-        for(int i = 0; i < m; i++)
-            for(auto& j : tabella[i])
-                out << j.chiave << " -> " << j.valore << "\n";
-    }
-
-    S* find(T chiave){
-        int idx = hash(chiave);
-        for(auto& oggetto : tabella[idx]){
-            if(oggetto.chiave == chiave){
-                return &(oggetto.valore);
-            }
+    V* find(K key) {
+        int idx = hash(key);
+        for (auto& item : table[idx]) {
+            if (item.first == key) return &(item.second);
         }
         return nullptr;
     }
 
+    void print(ostream& out) {
+        for (int i = 0; i < m; i++)
+            for (auto& item : table[i])
+                out << item.first << " -> " << item.second << "\n";
+    }
 };
 
-void leggiFile(Hash<int,string>& H, string file){
+void readFile(HashList<int, string>& H, string file) {
     ifstream in(file);
-    int k;
-    string v;
-    char c;
-    while(in >> c && c == '<' && in >> k >> c && c == ','){
+    int k; string v; char c;
+    while(in >> c && c == '<' && in >> k >> c && c == ',') {
         getline(in, v, '>');
-        H.insert(k,v);
+        H.insert(k, v);
     }
 }
-bool disjoint( Hash<int,string>& A,  Hash<int,string>& B){
-    for(int i = 0; i<A.m;i++)
-        for(auto& j : A.tabella[i])
-            if(B.contiene(j.chiave)) return false;
+
+bool disjoint(HashList<int, string>& A, HashList<int, string>& B) {
+    for (int i = 0; i < A.m; i++)
+        for (auto& row : A.table[i])
+            if (B.contains(row.first)) return false;
     return true;
 }
 
-
-
-
-int main()
-{
+int main() {
     int M = 999;
-    Hash<int,string> H1(M), H2(M);
-    leggiFile(H1,"input1.txt");
-    leggiFile(H2,"input2.txt");
+    HashList<int, string> H1(M), H2(M);
+    readFile(H1, "input1.txt");
+    readFile(H2, "input2.txt");
 
     ofstream out("output.txt");
-    out << (disjoint(H1,H2) ? "Disgiunte\n" : "Non disgiunte");
+    out << (disjoint(H1, H2) ? "Disgiunte\n" : "Non disgiunte\n");
 
-    out << "\n Tabella 1\n"; H1.stampa(out);
-    out << "\n Tabella 2\n"; H2.stampa(out);
+    out << "\nTabella 1\n"; H1.print(out);
+    out << "\nTabella 2\n"; H2.print(out);
 
-     int chiaveDaCercare;
-     cout << "inserisci la chiave da cercare: ";
-     cin >> chiaveDaCercare;
-    string* valoreTrovato = H1.find(chiaveDaCercare);
-
-    if (valoreTrovato != nullptr) {
-        cout << "Trovato! La chiave " << chiaveDaCercare << " ha valore: " << *valoreTrovato << "\n"<<endl;
-    } else {
-        cout << "La chiave " << chiaveDaCercare << " non e' stata trovata nella tabella 1.\n"<<endl;
+    cout << "Chiave da cercare in H1: ";
+    int k;
+    if (cin >> k) {
+        string* found = H1.find(k);
+        if (found) cout << "Trovato: " << *found << "\n";
+        else cout << "Non trovato\n";
     }
-
-
-
 
     return 0;
 }

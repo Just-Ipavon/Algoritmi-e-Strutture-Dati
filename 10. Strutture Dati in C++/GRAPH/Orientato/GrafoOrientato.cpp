@@ -1,112 +1,76 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <map>
-
 using namespace std;
 
 enum Color { White, Grey, Black };
 
-template <typename T>
-class Node {
+class Graph {
 public:
-    T value;
-    Color color = White;
-    Node<T>* parent = nullptr;
+    int n;
+    vector<vector<pair<int, int>>> adj;
 
-    Node(T val) : value(val) {}
-};
+    Graph(int n) : n(n), adj(n) {}
 
-template <typename T>
-class Edge {
-public:
-    int weight;
-    Node<T>* from;
-    Node<T>* to;
+    void add_edge(int u, int v, int weight) {
+        adj[u].push_back({v, weight}); // Orientato: solo da u a v
+    }
 
-    Edge(int w, Node<T>* f, Node<T>* t) : weight(w), from(f), to(t) {}
-};
-
-template <typename T>
-class GraphDirected {
-private:
-    map<T, Node<T>*> nodes;
-    map<T, vector<pair<T, int>>> adj;
-
-    void dfs_visit(Node<T>* node, ostream& out) {
-        node->color = Grey;
-        out << node->value << " ";
-        for (const auto& neighbor : adj[node->value]) {
-            Node<T>* next = nodes[neighbor.first];
-            if (next->color == White) {
-                next->parent = node;
-                dfs_visit(next, out);
+    void dfs_visit(int u, vector<Color>& color, ostream& out) {
+        color[u] = Grey;
+        out << u << " "; // Pre-order visiting
+        
+        for (auto edge : adj[u]) {
+            int v = edge.first;
+            if (color[v] == White) {
+                dfs_visit(v, color, out);
             }
         }
-        node->color = Black;
+        color[u] = Black; // Post-order (completamento)
     }
 
-public:
-    vector<Edge<T>*> edges;
-
-    void add_node(T val) {
-        if (nodes.count(val) == 0)
-            nodes[val] = new Node<T>(val);
+    void dfs(int start, ostream& out) {
+        vector<Color> color(n, White);
+        
+        // Se vogliamo la DFS completa di tutti i nodi disconnessi:
+        // for(int i=0; i<n; i++) if (color[i] == White) dfs_visit(i, color, out);
+        
+        // Se vogliamo partire solo da 'start' come faceva l'originale:
+        if (start < n) dfs_visit(start, color, out);
     }
 
-    void add_edge(T u, T v, int weight) {
-        add_node(u);
-        add_node(v);
-        Node<T>* nu = nodes[u];
-        Node<T>* nv = nodes[v];
-        edges.push_back(new Edge<T>(weight, nu, nv));
-        adj[u].emplace_back(v, weight); // orientato
-    }
-
-    void print_adjacency_list(ostream& out) {
-        for (const auto& entry : adj) {
-            out << entry.first << " -> ";
-            for (const auto& edge : entry.second) {
-                out << "(" << edge.first << ", peso: " << edge.second << ") ";
-            }
+    void print(ostream& out) {
+        for (int i = 0; i < n; i++) {
+            out << i << " -> ";
+            for (auto edge : adj[i]) 
+                out << "(" << edge.first << ", w:" << edge.second << ") ";
             out << "\n";
         }
-    }
-
-    void dfs(T start, ostream& out) {
-        for (auto& n : nodes) {
-            n.second->color = White;
-            n.second->parent = nullptr;
-        }
-
-        if (nodes.count(start) == 0) return;
-
-        dfs_visit(nodes[start], out);
     }
 };
 
 int main() {
     ifstream in("input.txt");
-    ofstream out("output.txt");
-
-
     int n, m;
-    in >> n >> m;
 
-    GraphDirected<int> g;
-
-    for (int i = 0; i < m; ++i) {
-        int u, v, w;
-        in >> u >> v >> w;
-        g.add_edge(u, v, w);
+    if (!(in >> n >> m)) {
+        n = 5; m = 4;
     }
 
-    out << "Lista di adiacenza:\n";
-    g.print_adjacency_list(out);
+    Graph g(n);
+    for (int i = 0; i < m; ++i) {
+        int u, v, w;
+        if(in >> u >> v >> w) g.add_edge(u, v, w);
+        else if (i==0) { g.add_edge(0,1,10); g.add_edge(1,2,5); break; }
+    }
 
-    out << "\nDFS dal nodo 0:\n";
+    ofstream out("output.txt");
+    out << "Lista di adiacenza (Orientata):\n";
+    g.print(out);
+
+    out << "\nDFS ricorsiva dal nodo 0:\n";
     g.dfs(0, out);
 
-    cout << "Grafo orientato caricato, DFS eseguita. Vedi output_orientato_dfs.txt\n";
+    cout << "Grafo orientato: DFS completata.\n";
     return 0;
 }
