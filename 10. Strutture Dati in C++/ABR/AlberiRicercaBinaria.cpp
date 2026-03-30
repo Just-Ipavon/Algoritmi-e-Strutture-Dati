@@ -42,7 +42,6 @@ public:
         else p->right = n;
     }
 
-    // Ricerca iterativa: più corta e facile da memorizzare rispetto alla ricorsiva
     Node<K,V>* search(K key) {
         Node<K,V>* curr = root;
         while (curr && curr->key != key) {
