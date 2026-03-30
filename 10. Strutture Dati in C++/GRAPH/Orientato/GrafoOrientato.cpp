@@ -5,45 +5,86 @@ using namespace std;
 
 enum Color { White, Grey, Black };
 
+// Classe Node template, includiamo i pesi
+template <class T>
+class Node {
+public:
+    T val;
+    // pair <nodo di destinazione, peso>
+    vector<pair<Node<T>*, int>> adj;
+    Color color;
+
+    Node(T val) : val(val), color(White) {}
+
+    // Grafo orientato, colleghiamo in una sola direzione
+    void add_edge(Node<T>* v, int weight) {
+        adj.push_back({v, weight});
+    }
+};
+
+template <class T>
 class Graph {
 public:
-    int n;
-    vector<vector<pair<int, int>>> adj;
+    vector<Node<T>*> nodes;
 
-    Graph(int n) : n(n), adj(n) {}
-
-    void add_edge(int u, int v, int weight) {
-        adj[u].push_back({v, weight}); // Orientato: solo da u a v
+    void add_node(T val) {
+        nodes.push_back(new Node<T>(val));
     }
 
-    void dfs_visit(int u, vector<Color>& color, ostream& out) {
-        color[u] = Grey;
-        out << u << " "; // Pre-order visiting
+    void add_edge(T u, T v, int weight) {
+        Node<T>* node_u = nullptr;
+        Node<T>* node_v = nullptr;
+
+        for (auto node : nodes) {
+            if (node->val == u) node_u = node;
+            if (node->val == v) node_v = node;
+        }
+
+        if (node_u && node_v) {
+            node_u->add_edge(node_v, weight); 
+        }
+    }
+
+    void reset() {
+        for (auto node : nodes) {
+            node->color = White;
+        }
+    }
+
+    void dfs_visit(Node<T>* u, ostream& out) {
+        u->color = Grey;
+        out << u->val << " "; // Pre-order visiting
         
-        for (auto edge : adj[u]) {
-            int v = edge.first;
-            if (color[v] == White) {
-                dfs_visit(v, color, out);
+        for (auto edge : u->adj) {
+            Node<T>* v = edge.first;
+            if (v->color == White) {
+                dfs_visit(v, out);
             }
         }
-        color[u] = Black; // Post-order (completamento)
+        u->color = Black; // Post-order (completamento)
     }
 
-    void dfs(int start, ostream& out) {
-        vector<Color> color(n, White);
-        
-        // Se vogliamo la DFS completa di tutti i nodi disconnessi:
-        // for(int i=0; i<n; i++) if (color[i] == White) dfs_visit(i, color, out);
-        
-        // Se vogliamo partire solo da 'start' come faceva l'originale:
-        if (start < n) dfs_visit(start, color, out);
+    void dfs(T start_val, ostream& out) {
+        Node<T>* start_node = nullptr;
+        for (auto node : nodes) {
+            if (node->val == start_val) {
+                start_node = node;
+                break;
+            }
+        }
+
+        if (!start_node) return;
+
+        reset();
+        dfs_visit(start_node, out);
     }
 
     void print(ostream& out) {
-        for (int i = 0; i < n; i++) {
-            out << i << " -> ";
-            for (auto edge : adj[i]) 
-                out << "(" << edge.first << ", w:" << edge.second << ") ";
+        for (auto node : nodes) {
+            out << node->val << " -> ";
+            for (auto edge : node->adj) {
+                out << "(" << edge.first->val << ", w:" << edge.second << ") ";
+            }
             out << "\n";
         }
     }
@@ -57,11 +98,18 @@ int main() {
         n = 5; m = 4;
     }
 
-    Graph g(n);
+    Graph<int> g;
+    for (int i = 0; i < n; ++i) {
+        g.add_node(i);
+    }
+
     for (int i = 0; i < m; ++i) {
         int u, v, w;
         if(in >> u >> v >> w) g.add_edge(u, v, w);
-        else if (i==0) { g.add_edge(0,1,10); g.add_edge(1,2,5); break; }
+        else if (i==0) { 
+            g.add_edge(0,1,10); g.add_edge(1,2,5); 
+            break; 
+        }
     }
 
     ofstream out("output.txt");
@@ -71,6 +119,6 @@ int main() {
     out << "\nDFS ricorsiva dal nodo 0:\n";
     g.dfs(0, out);
 
-    cout << "Grafo orientato: DFS completata.\n";
+    cout << "Grafo orientato: DFS completata con classe Node.\n";
     return 0;
 }
